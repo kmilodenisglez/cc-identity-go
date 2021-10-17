@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/x509"
 	"encoding/base64"
+	"encoding/json"
 	"encoding/pem"
 	"errors"
 	"fmt"
@@ -11,6 +12,7 @@ import (
 	"github.com/hyperledger/fabric-chaincode-go/pkg/cid"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	jose "gopkg.in/square/go-jose.v2"
+	"log"
 	"strings"
 	"time"
 )
@@ -269,6 +271,43 @@ func FillFromParsedCert(cert *x509.Certificate, attrs *Attrs) {
 			}
 		}
 	}
+}
+
+// CertificateAlreadyExists check if the certificate already exists in the world-state
+//
+// Arguments:
+//		0: certPemBase64 - certificate to validate
+//		1: indexName -
+//		2: attributes -
+// Returns:
+//		0: bool
+//		1: error
+func CertificateAlreadyExists(ctx contractapi.TransactionContextInterface, certPemBase64 string, indexName string, attributes []string) (bool, error) {
+	log.Printf("[inside][certificateAlreadyExists]")
+
+	issuesResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(indexName, attributes)
+	if err != nil {
+		return false, err
+	}
+	defer issuesResultsIterator.Close()
+
+	for issuesResultsIterator.HasNext() {
+		responseRange, err := issuesResultsIterator.Next()
+		if responseRange == nil {
+			return false, err
+		}
+
+		var crt smallIssuer
+		err = json.Unmarshal(responseRange.Value, &crt)
+		if err != nil {
+			return false, err
+		}
+
+		if CompareCertsPemBase64(crt.CertPem, certPemBase64) {
+			return true, nil
+		}
+	}
+	return false, nil
 }
 
 func parseKey(publicKey string) string {

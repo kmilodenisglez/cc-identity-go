@@ -1,0 +1,1098 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>identity - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="/lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="/lib/godoc/jquery.js" defer=""></script>
+
+
+
+<script>var goVersion = "go1.16.3";</script>
+<script src="/lib/godoc/godocs.js" defer=""></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="/pkg/">GoDoc</a></div>
+<a href="#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required=""><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewbox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package identity
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/ic-matcom/cc-identity-go/contracts/identity"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+				<dd><a href="#pkg-constants">Constants</a></dd>
+			
+			
+			
+			
+				
+				<dd><a href="#Access">type Access</a></dd>
+				
+				
+			
+				
+				<dd><a href="#AccessCreateRequest">type AccessCreateRequest</a></dd>
+				
+				
+			
+				
+				<dd><a href="#AccessUpdateRequest">type AccessUpdateRequest</a></dd>
+				
+				
+			
+				
+				<dd><a href="#ContractIdentity">type ContractIdentity</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.CreateAccess">func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInterface, request AccessCreateRequest) (*model.AccessResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.CreateIssuer">func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInterface, issuerRequest model.IssuerCreateRequest) (*Issuer, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.CreateParticipant">func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantCreateRequest) (*Participant, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.CreateRole">func (ic *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterface, request model.RoleCreateRequest) (*model.RoleResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.DeleteIssuer">func (ic *ContractIdentity) DeleteIssuer(ctx contractapi.TransactionContextInterface, issuerRequest model.GetRequest) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.DeleteParticipant">func (ic *ContractIdentity) DeleteParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantDeleteRequest) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.DeleteRole">func (ic *ContractIdentity) DeleteRole(ctx contractapi.TransactionContextInterface, request model.GetRequest) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.DisarmParticipant">func (ic *ContractIdentity) DisarmParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantDeleteRequest) (bool, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetAccess">func (ic *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*model.AccessResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetAccesses">func (ic *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface) ([]model.AccessResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetIgnoredFunctions">func (ic *ContractIdentity) GetIgnoredFunctions() []string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetIssuer">func (ic *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*Issuer, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetIssuerHistory">func (ic *ContractIdentity) GetIssuerHistory(ctx contractapi.TransactionContextInterface, issuerRequest model.GetRequest) ([]model.IssuerHistoryQueryResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetIssuers">func (ic *ContractIdentity) GetIssuers(ctx contractapi.TransactionContextInterface) ([]Issuer, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetParticipant">func (ic *ContractIdentity) GetParticipant(ctx contractapi.TransactionContextInterface, request model.ParticipantGetRequest) (*model.ParticipantResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetParticipantHistory">func (ic *ContractIdentity) GetParticipantHistory(ctx contractapi.TransactionContextInterface, request model.ParticipantGetRequest) ([]model.ParticipantHistoryQueryResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetParticipants">func (ic *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextInterface) ([]model.ParticipantResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetRole">func (ic *ContractIdentity) GetRole(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*model.RoleResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetRoles">func (ic *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface) ([]model.RoleResponse, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.GetTransactions">func (ic *ContractIdentity) GetTransactions() []string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.InitLedger">func (ic *ContractIdentity) InitLedger(ctx contractapi.TransactionContextInterface) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.OnlyDevAccess">func (ic *ContractIdentity) OnlyDevAccess(ctx contractapi.TransactionContextInterface) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.OnlyDevIssuer">func (ic *ContractIdentity) OnlyDevIssuer(ctx contractapi.TransactionContextInterface) (string, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.OnlyDevParticipant">func (ic *ContractIdentity) OnlyDevParticipant(ctx contractapi.TransactionContextInterface) (string, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.ParticipantExits">func (ic *ContractIdentity) ParticipantExits(ctx contractapi.TransactionContextInterface, request model.ParticipantGetRequest) (bool, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.RenewIssuer">func (ic *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterface, issuerRequest IssuerUpdateRequest) (*Issuer, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ContractIdentity.UpdateRole">func (ic *ContractIdentity) UpdateRole(ctx contractapi.TransactionContextInterface, request model.RoleUpdateRequest) error</a></dd>
+				
+			
+				
+				<dd><a href="#Issuer">type Issuer</a></dd>
+				
+				
+			
+				
+				<dd><a href="#IssuerUpdateRequest">type IssuerUpdateRequest</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Participant">type Participant</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Role">type Role</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/accesscontract.go">accesscontract.go</a>
+			
+				<a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/constants.go">constants.go</a>
+			
+				<a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/issuercontract.go">issuercontract.go</a>
+			
+				<a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/model.go">model.go</a>
+			
+				<a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go">participantcontract.go</a>
+			
+				<a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/rolecontract.go">rolecontract.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+			<h2 id="pkg-constants">Constants</h2>
+			
+				<p>
+docType
+</p>
+
+				<pre>const (
+    <span id="ParticipantDocType">ParticipantDocType</span> = &#34;did.participant&#34;
+    <span id="RoleDocType">RoleDocType</span>        = &#34;did.role&#34;
+    <span id="AccessDocType">AccessDocType</span>      = &#34;did.access&#34;
+    <span id="IssuerDocType">IssuerDocType</span>      = &#34;did.issuer&#34;
+)</pre>
+			
+				
+				<pre>const (
+    <span class="comment">// index</span>
+    <span id="Deleted">Deleted</span> = &#34;deleted&#34;
+
+    <span class="comment">// objectType</span>
+    <span id="ObjectTypeParticipantByDidUuid">ObjectTypeParticipantByDidUuid</span> = <a href="#ParticipantDocType">ParticipantDocType</a> + &#34;:did~uuid&#34;
+    <span id="ObjectTypeParticipantDeleted">ObjectTypeParticipantDeleted</span>   = <a href="#ParticipantDocType">ParticipantDocType</a> + &#34;:&#34; + <a href="#Deleted">Deleted</a> + &#34;~did~uuid&#34; <span class="comment">// use to index deleted participant</span>
+    <span id="ObjectTypeIssuerByDefault">ObjectTypeIssuerByDefault</span>      = <a href="#IssuerDocType">IssuerDocType</a> + &#34;:default~uuid&#34;
+)</pre>
+			
+		
+		
+		
+		
+			
+			
+			<h2 id="Access">type <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/model.go?s=1136:1545#L20">Access</a>
+				<a class="permalink" href="#Access">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Access
+</p>
+
+			<pre>type Access struct {
+<span id="Access.DocType"></span>    DocType           <a href="/pkg/builtin/#string">string</a>            `json:&#34;docType&#34;`
+<span id="Access.ID"></span>    ID                <a href="/pkg/builtin/#string">string</a>            `json:&#34;id&#34;`                                         <span class="comment">// contract name</span>
+<span id="Access.Description"></span>    Description       <a href="/pkg/builtin/#string">string</a>            `json:&#34;description,omitempty&#34; metadata:&#34;,optional&#34;` <span class="comment">// access description</span>
+<span id="Access.ContractFunctions"></span>    ContractFunctions map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a> `json:&#34;contractFunctions&#34;`                          <span class="comment">// contract functions name</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="AccessCreateRequest">type <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/accesscontract.go?s=5603:5775#L189">AccessCreateRequest</a>
+				<a class="permalink" href="#AccessCreateRequest">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+AccessCreateRequest
+</p>
+
+			<pre>type AccessCreateRequest struct {
+<span id="AccessCreateRequest.ContractName"></span>    ContractName      <a href="/pkg/builtin/#string">string</a>   `json:&#34;contractName&#34;`
+<span id="AccessCreateRequest.ContractFunctions"></span>    ContractFunctions []<a href="/pkg/builtin/#string">string</a> `json:&#34;contractFunctions,omitempty&#34;` <span class="comment">// contract functions</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="AccessUpdateRequest">type <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/accesscontract.go?s=5800:5957#L195">AccessUpdateRequest</a>
+				<a class="permalink" href="#AccessUpdateRequest">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+AccessUpdateRequest
+</p>
+
+			<pre>type AccessUpdateRequest struct {
+<span id="AccessUpdateRequest.ID"></span>    ID                <a href="/pkg/builtin/#string">string</a>   `json:&#34;id&#34;`
+<span id="AccessUpdateRequest.ContractFunctions"></span>    ContractFunctions []<a href="/pkg/builtin/#string">string</a> `json:&#34;contractFunctions&#34;` <span class="comment">// contract functions name</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="ContractIdentity">type <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/model.go?s=270:324#L1">ContractIdentity</a>
+				<a class="permalink" href="#ContractIdentity">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+chaincode that defines the business logic for managing identity
+</p>
+
+			<pre>type ContractIdentity struct {
+    <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#Contract">Contract</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="ContractIdentity.CreateAccess">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/accesscontract.go?s=977:1122#L33">CreateAccess</a>
+					<a class="permalink" href="#ContractIdentity.CreateAccess">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) CreateAccess(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="#AccessCreateRequest">AccessCreateRequest</a>) (*<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#AccessResponse">AccessResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+CreateAccess
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: AccessCreateRequest -
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: AccessResponse
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.CreateIssuer">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/issuercontract.go?s=6189:6332#L26">CreateIssuer</a>
+					<a class="permalink" href="#ContractIdentity.CreateIssuer">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) CreateIssuer(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, issuerRequest <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#IssuerCreateRequest">IssuerCreateRequest</a>) (*<a href="#Issuer">Issuer</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+CreateIssuer create in the ledger the issuer&#39;s certificate with its attributes
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: IssuerCreateRequest
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: Issuer
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.CreateParticipant">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=4587:4747#L50">CreateParticipant</a>
+					<a class="permalink" href="#ContractIdentity.CreateParticipant">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) CreateParticipant(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, identityRequest <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#ParticipantCreateRequest">ParticipantCreateRequest</a>) (*<a href="#Participant">Participant</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+TODO: missing validates ca cert - participant cer
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.CreateRole">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/rolecontract.go?s=242:387#L4">CreateRole</a>
+					<a class="permalink" href="#ContractIdentity.CreateRole">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) CreateRole(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#RoleCreateRequest">RoleCreateRequest</a>) (*<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#RoleResponse">RoleResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+CreateRole
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.DeleteIssuer">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/issuercontract.go?s=10969:11092#L190">DeleteIssuer</a>
+					<a class="permalink" href="#ContractIdentity.DeleteIssuer">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) DeleteIssuer(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, issuerRequest <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#GetRequest">GetRequest</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+DeleteIssuer delete an issuer from the ledger
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: GetRequest
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: Issuer
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.DeleteParticipant">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=8846:8990#L194">DeleteParticipant</a>
+					<a class="permalink" href="#ContractIdentity.DeleteParticipant">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) DeleteParticipant(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, identityRequest <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#ParticipantDeleteRequest">ParticipantDeleteRequest</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+TODO: debug
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.DeleteRole">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/rolecontract.go?s=4122:4237#L140">DeleteRole</a>
+					<a class="permalink" href="#ContractIdentity.DeleteRole">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) DeleteRole(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#GetRequest">GetRequest</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+DeleteRole
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.DisarmParticipant">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=11610:11762#L275">DisarmParticipant</a>
+					<a class="permalink" href="#ContractIdentity.DisarmParticipant">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) DisarmParticipant(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, identityRequest <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#ParticipantDeleteRequest">ParticipantDeleteRequest</a>) (<a href="/pkg/builtin/#bool">bool</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetAccess">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/accesscontract.go?s=2138:2277#L72">GetAccess</a>
+					<a class="permalink" href="#ContractIdentity.GetAccess">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetAccess(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#GetRequest">GetRequest</a>) (*<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#AccessResponse">AccessResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetAccess get an access
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: GetRequest
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: AccessResponse
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetAccesses">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/accesscontract.go?s=3180:3296#L106">GetAccesses</a>
+					<a class="permalink" href="#ContractIdentity.GetAccesses">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetAccesses(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>) ([]<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#AccessResponse">AccessResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetAccesses get all access
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: none
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: []model.AccessResponse
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetIgnoredFunctions">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/accesscontract.go?s=5483:5541#L184">GetIgnoredFunctions</a>
+					<a class="permalink" href="#ContractIdentity.GetIgnoredFunctions">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetIgnoredFunctions() []<a href="/pkg/builtin/#string">string</a></pre>
+				<p>
+GetIgnoredFunctions returns functions are still callable by the code just not directly by outside users
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetIssuer">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/issuercontract.go?s=10083:10208#L160">GetIssuer</a>
+					<a class="permalink" href="#ContractIdentity.GetIssuer">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetIssuer(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#GetRequest">GetRequest</a>) (*<a href="#Issuer">Issuer</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetIssuer get an issuer from the ledger
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: GetRequest
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: Issuer
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetIssuerHistory">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/issuercontract.go?s=12720:12885#L252">GetIssuerHistory</a>
+					<a class="permalink" href="#ContractIdentity.GetIssuerHistory">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetIssuerHistory(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, issuerRequest <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#GetRequest">GetRequest</a>) ([]<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#IssuerHistoryQueryResponse">IssuerHistoryQueryResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetIssuerHistory returns the chain of custody for a issuer since issuance
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: model.GetRequest
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: []model.IssuerHistoryQueryResponse
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetIssuers">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/issuercontract.go?s=11885:11986#L219">GetIssuers</a>
+					<a class="permalink" href="#ContractIdentity.GetIssuers">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetIssuers(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>) ([]<a href="#Issuer">Issuer</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetIssuers get all issuer
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: none
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: []Issuer
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetParticipant">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=12471:12631#L301">GetParticipant</a>
+					<a class="permalink" href="#ContractIdentity.GetParticipant">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetParticipant(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#ParticipantGetRequest">ParticipantGetRequest</a>) (*<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#ParticipantResponse">ParticipantResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetParticipantHistory">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=14268:14448#L356">GetParticipantHistory</a>
+					<a class="permalink" href="#ContractIdentity.GetParticipantHistory">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetParticipantHistory(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#ParticipantGetRequest">ParticipantGetRequest</a>) ([]<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#ParticipantHistoryQueryResponse">ParticipantHistoryQueryResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetParticipantHistory returns the chain of custody for a identity since issuance
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: model.ParticipantGetRequest
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: []model.ParticipantHistoryQueryResponse
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetParticipants">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=15795:15920#L414">GetParticipants</a>
+					<a class="permalink" href="#ContractIdentity.GetParticipants">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetParticipants(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>) ([]<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#ParticipantResponse">ParticipantResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetParticipants get all identity
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: none
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: []model.ParticipantResponse
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetRole">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/rolecontract.go?s=1321:1456#L41">GetRole</a>
+					<a class="permalink" href="#ContractIdentity.GetRole">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetRole(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#GetRequest">GetRequest</a>) (*<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#RoleResponse">RoleResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetRole
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetRoles">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/rolecontract.go?s=2298:2409#L72">GetRoles</a>
+					<a class="permalink" href="#ContractIdentity.GetRoles">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetRoles(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>) ([]<a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#RoleResponse">RoleResponse</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetRoles get all role
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.GetTransactions">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=18202:18256#L483">GetTransactions</a>
+					<a class="permalink" href="#ContractIdentity.GetTransactions">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) GetTransactions() []<a href="/pkg/builtin/#string">string</a></pre>
+				<p>
+GetTransactions returns callables functions of Contract
+use to populate ContractFunctions field in identity:Access
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.InitLedger">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=313:402#L6">InitLedger</a>
+					<a class="permalink" href="#ContractIdentity.InitLedger">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) InitLedger(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+InitLedger adds a base set of data to the ledger
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.OnlyDevAccess">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/accesscontract.go?s=251:343#L4">OnlyDevAccess</a>
+					<a class="permalink" href="#ContractIdentity.OnlyDevAccess">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) OnlyDevAccess(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+TODO: only for test
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.OnlyDevIssuer">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/issuercontract.go?s=293:395#L4">OnlyDevIssuer</a>
+					<a class="permalink" href="#ContractIdentity.OnlyDevIssuer">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) OnlyDevIssuer(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+OnlyDevIssuer [temporary] function to populate with test data
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.OnlyDevParticipant">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=958:1065#L27">OnlyDevParticipant</a>
+					<a class="permalink" href="#ContractIdentity.OnlyDevParticipant">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) OnlyDevParticipant(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+OnlyDevParticipant [temporary] function to populate with test data
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.ParticipantExits">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/participantcontract.go?s=16676:16816#L441">ParticipantExits</a>
+					<a class="permalink" href="#ContractIdentity.ParticipantExits">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) ParticipantExits(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#ParticipantGetRequest">ParticipantGetRequest</a>) (<a href="/pkg/builtin/#bool">bool</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+ParticipantExits returns true when identity with given key exists in the worldState.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.RenewIssuer">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/issuercontract.go?s=8416:8552#L104">RenewIssuer</a>
+					<a class="permalink" href="#ContractIdentity.RenewIssuer">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) RenewIssuer(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, issuerRequest <a href="#IssuerUpdateRequest">IssuerUpdateRequest</a>) (*<a href="#Issuer">Issuer</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+RenewIssuer update issuer certificate in the ledger
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: IssuerUpdateRequest
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: Issuer
+1: error
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="ContractIdentity.UpdateRole">func (*ContractIdentity) <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/rolecontract.go?s=3178:3300#L104">UpdateRole</a>
+					<a class="permalink" href="#ContractIdentity.UpdateRole">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ic *<a href="#ContractIdentity">ContractIdentity</a>) UpdateRole(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, request <a href="/pkg/github.com/ic-matcom/model-traceability-go/">model</a>.<a href="/pkg/github.com/ic-matcom/model-traceability-go/#RoleUpdateRequest">RoleUpdateRequest</a>) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+UpdateRole
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Issuer">type <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/model.go?s=421:1124#L6">Issuer</a>
+				<a class="permalink" href="#Issuer">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Issuer are the companies issuer certs and attributes in the network, tecnomatica by default
+</p>
+
+			<pre>type Issuer struct {
+<span id="Issuer.DocType"></span>    DocType     <a href="/pkg/builtin/#string">string</a>            `json:&#34;docType&#34;` <span class="comment">// docType is used to distinguish the various types of objects in state database</span>
+<span id="Issuer.ID"></span>    ID          <a href="/pkg/builtin/#string">string</a>            `json:&#34;id&#34;`
+<span id="Issuer.Name"></span>    Name        <a href="/pkg/builtin/#string">string</a>            `json:&#34;name&#34;`
+<span id="Issuer.CertPem"></span>    CertPem     <a href="/pkg/builtin/#string">string</a>            `json:&#34;certPem&#34;`     <span class="comment">// cert PEM active</span>
+<span id="Issuer.Attrs"></span>    Attrs       <a href="..\..\lib-utils\index.htm">lus</a>.<a href="..\..\lib-utils\index.htm#Attrs">Attrs</a>         `json:&#34;attrs&#34;`       <span class="comment">// subject cert</span>
+<span id="Issuer.AttrsExtras"></span>    AttrsExtras map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a> `json:&#34;attrsExtras&#34;` <span class="comment">// non-standard X.509 certificate extension asn1 1.2.3.4.5.6.7.8.1, etc.</span>
+<span id="Issuer.IssuedTime"></span>    IssuedTime  <a href="/pkg/builtin/#string">string</a>            `json:&#34;issuedTime&#34;`
+<span id="Issuer.ExpiresTime"></span>    ExpiresTime <a href="/pkg/builtin/#string">string</a>            `json:&#34;expiresTime&#34;`
+<span id="Issuer.Active"></span>    Active      <a href="/pkg/builtin/#bool">bool</a>              `json:&#34;active&#34;`
+<span id="Issuer.ByDefault"></span>    ByDefault   <a href="/pkg/builtin/#bool">bool</a>              `json:&#34;byDefault&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="IssuerUpdateRequest">type <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/issuercontract.go?s=8150:8276#L92">IssuerUpdateRequest</a>
+				<a class="permalink" href="#IssuerUpdateRequest">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+IssuerUpdateRequest
+</p>
+
+			<pre>type IssuerUpdateRequest struct {
+<span id="IssuerUpdateRequest.ID"></span>    ID      <a href="/pkg/builtin/#string">string</a> `json:&#34;id&#34;`
+<span id="IssuerUpdateRequest.CertPem"></span>    CertPem <a href="/pkg/builtin/#string">string</a> `json:&#34;certPem&#34;` <span class="comment">// b64 certificate PEM active</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Participant">type <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/model.go?s=1992:3411#L37">Participant</a>
+				<a class="permalink" href="#Participant">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+The Participant Identity asset
+</p>
+
+			<pre>type Participant struct {
+<span id="Participant.DocType"></span>    DocType     <a href="/pkg/builtin/#string">string</a>            `json:&#34;docType&#34;`                                <span class="comment">// docType is used to distinguish the various types of objects in state database</span>
+<span id="Participant.ID"></span>    ID          <a href="/pkg/builtin/#string">string</a>            `json:&#34;id&#34;`                                     <span class="comment">// participant id: used in the composite key to store the participant in the ledger</span>
+<span id="Participant.Did"></span>    Did         <a href="/pkg/builtin/#string">string</a>            `json:&#34;did&#34;`                                    <span class="comment">// &#34;did:hash_public_key&#34;</span>
+<span id="Participant.CertPem"></span>    CertPem     <a href="/pkg/builtin/#string">string</a>            `json:&#34;certPem&#34;`                                <span class="comment">// certificate PEM active</span>
+<span id="Participant.IssuerID"></span>    IssuerID    <a href="/pkg/builtin/#string">string</a>            `json:&#34;issuerId&#34;`                               <span class="comment">// issuer id</span>
+<span id="Participant.Creator"></span>    Creator     <a href="/pkg/builtin/#string">string</a>            `json:&#34;creator,omitempty&#34; metadata:&#34;,optional&#34;` <span class="comment">// Participant ID that created the identity, &#34;empty if is SelfParticipant&#34;</span>
+<span id="Participant.Roles"></span>    Roles       []<a href="/pkg/builtin/#string">string</a>          `json:&#34;roles&#34;`                                  <span class="comment">// role id</span>
+<span id="Participant.Attrs"></span>    Attrs       <a href="..\..\lib-utils\index.htm">lus</a>.<a href="..\..\lib-utils\index.htm#Attrs">Attrs</a>         `json:&#34;attrs&#34;`                                  <span class="comment">// Subject certificate</span>
+<span id="Participant.AttrsExtras"></span>    AttrsExtras map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a> `json:&#34;attrsExtras&#34;`                            <span class="comment">// non-standard X.509 certificate extension asn1 1.2.3.4.5.6.7.8.1, etc.</span>
+<span id="Participant.Time"></span>    Time        <a href="/pkg/builtin/#string">string</a>            `json:&#34;time&#34;`
+<span id="Participant.IssuedTime"></span>    IssuedTime  <a href="/pkg/builtin/#string">string</a>            `json:&#34;issuedTime&#34;`
+<span id="Participant.ExpiresTime"></span>    ExpiresTime <a href="/pkg/builtin/#string">string</a>            `json:&#34;expiresTime&#34;`
+<span id="Participant.Active"></span>    Active      <a href="/pkg/builtin/#bool">bool</a>              `json:&#34;active&#34;`
+<span id="Participant.MspID"></span>    MspID       <a href="/pkg/builtin/#string">string</a>            `json:&#34;mspID&#34;` <span class="comment">// MSP ID of client identity</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Role">type <a href="/src/github.com/ic-matcom/cc-identity-go/contracts/identity/model.go?s=1560:1956#L28">Role</a>
+				<a class="permalink" href="#Role">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Role data
+</p>
+
+			<pre>type Role struct {
+<span id="Role.DocType"></span>    DocType           <a href="/pkg/builtin/#string">string</a>            `json:&#34;docType&#34;`
+<span id="Role.ID"></span>    ID                <a href="/pkg/builtin/#string">string</a>            `json:&#34;id&#34;`
+<span id="Role.Name"></span>    Name              <a href="/pkg/builtin/#string">string</a>            `json:&#34;name&#34;`
+<span id="Role.Description"></span>    Description       <a href="/pkg/builtin/#string">string</a>            `json:&#34;description,omitempty&#34; metadata:&#34;,optional&#34;` <span class="comment">// description</span>
+<span id="Role.ContractFunctions"></span>    ContractFunctions map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a> `json:&#34;contractFunctions,omitempty&#34;`                <span class="comment">// Access contract functions</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.16.3.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

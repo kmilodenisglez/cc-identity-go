@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>lib_utils - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="/lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="/lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.16.3";</script>
+<script src="/lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="/pkg/">GoDoc</a></div>
+<a href="#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package lib_utils
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/ic-matcom/cc-identity-go/lib-utils"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+				
+				<dd><a href="#AssertAdmin">func AssertAdmin(ctx contractapi.TransactionContextInterface) error</a></dd>
+			
+				
+				<dd><a href="#CertificateAlreadyExists">func CertificateAlreadyExists(ctx contractapi.TransactionContextInterface, certPemBase64 string, indexName string, attributes []string) (bool, error)</a></dd>
+			
+				
+				<dd><a href="#CheckAttr">func CheckAttr(name, value string, attrs *attrmgr.Attributes) (bool, error)</a></dd>
+			
+				
+				<dd><a href="#CheckSignatureFrom">func CheckSignatureFrom(certRoot []byte, certIssue []byte) error</a></dd>
+			
+				
+				<dd><a href="#CompareCertsPemBase64">func CompareCertsPemBase64(cert1, cert2 string) bool</a></dd>
+			
+				
+				<dd><a href="#ConcatenateBytes">func ConcatenateBytes(data ...[]byte) []byte</a></dd>
+			
+				
+				<dd><a href="#Contains">func Contains(arr []string, elem string) bool</a></dd>
+			
+				
+				<dd><a href="#CountAsset">func CountAsset(stub shim.ChaincodeStubInterface, KeyAsset string) (int, error)</a></dd>
+			
+				
+				<dd><a href="#CreateIndex">func CreateIndex(stub shim.ChaincodeStubInterface, indexName string, attributes []string) error</a></dd>
+			
+				
+				<dd><a href="#DeepCopy">func DeepCopy(v interface{}) (interface{}, error)</a></dd>
+			
+				
+				<dd><a href="#DeleteIndex">func DeleteIndex(stub shim.ChaincodeStubInterface, indexName string, attributes []string, validateDelState bool) error</a></dd>
+			
+				
+				<dd><a href="#DidFormat">func DidFormat(hashPubKey string) string</a></dd>
+			
+				
+				<dd><a href="#FillFromParsedCert">func FillFromParsedCert(cert *x509.Certificate, attrs *Attrs)</a></dd>
+			
+				
+				<dd><a href="#FunctionCompare">func FunctionCompare(f1, f2 string) (bool, error)</a></dd>
+			
+				
+				<dd><a href="#GenerateBytesUUID">func GenerateBytesUUID() []byte</a></dd>
+			
+				
+				<dd><a href="#GenerateUUID">func GenerateUUID() string</a></dd>
+			
+				
+				<dd><a href="#GetAttrsNonStandardCert">func GetAttrsNonStandardCert(certPem []byte) (map[string]string, error)</a></dd>
+			
+				
+				<dd><a href="#GetDateCertificate">func GetDateCertificate(cert *x509.Certificate) map[string]string</a></dd>
+			
+				
+				<dd><a href="#GetFirstElem">func GetFirstElem(arr []string) string</a></dd>
+			
+				
+				<dd><a href="#GetTxTimestampRFC3339">func GetTxTimestampRFC3339(stub shim.ChaincodeStubInterface) (string, error)</a></dd>
+			
+				
+				<dd><a href="#GetX509CertFromPem">func GetX509CertFromPem(certPemBase64 string) (*x509.Certificate, error)</a></dd>
+			
+				
+				<dd><a href="#GetX509CertFromPemByte">func GetX509CertFromPemByte(certPem []byte) (*x509.Certificate, error)</a></dd>
+			
+				
+				<dd><a href="#HasExpired">func HasExpired(cert *x509.Certificate) error</a></dd>
+			
+				
+				<dd><a href="#MapToSlice">func MapToSlice(dMap map[string]string) []string</a></dd>
+			
+				
+				<dd><a href="#NormalizeString">func NormalizeString(text string) string</a></dd>
+			
+				
+				<dd><a href="#ParseRFC3339toTime">func ParseRFC3339toTime(tm string) (time.Time, error)</a></dd>
+			
+				
+				<dd><a href="#SliceToMap">func SliceToMap(slice []string, dMap map[string]string)</a></dd>
+			
+				
+				<dd><a href="#ToChaincodeArgs">func ToChaincodeArgs(args ...string) [][]byte</a></dd>
+			
+				
+				<dd><a href="#UniqStr">func UniqStr(col []string) []string</a></dd>
+			
+				
+				<dd><a href="#VerifyIssuedByRootCert">func VerifyIssuedByRootCert(certRoot []byte, certIssue []byte) error</a></dd>
+			
+			
+				
+				<dd><a href="#Attrs">type Attrs</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetAttrsCert">func GetAttrsCert(cert *x509.Certificate) Attrs</a></dd>
+				
+				
+			
+				
+				<dd><a href="#BeforeTransactionUnmarshalResponse">type BeforeTransactionUnmarshalResponse</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/constants.go">constants.go</a>
+			
+				<a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go">crypto.go</a>
+			
+				<a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go">tools.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+			
+			
+			<h2 id="AssertAdmin">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=2608:2675#L89">AssertAdmin</a>
+				<a class="permalink" href="#AssertAdmin">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func AssertAdmin(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="CertificateAlreadyExists">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=7523:7672#L275">CertificateAlreadyExists</a>
+				<a class="permalink" href="#CertificateAlreadyExists">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CertificateAlreadyExists(ctx <a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/">contractapi</a>.<a href="/pkg/github.com/hyperledger/fabric-contract-api-go/contractapi/#TransactionContextInterface">TransactionContextInterface</a>, certPemBase64 <a href="/pkg/builtin/#string">string</a>, indexName <a href="/pkg/builtin/#string">string</a>, attributes []<a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#bool">bool</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+CertificateAlreadyExists check if the certificate already exists in the world-state
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: certPemBase64 - certificate to validate
+1: indexName -
+2: attributes -
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: bool
+1: error
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="CheckAttr">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=2160:2235#L74">CheckAttr</a>
+				<a class="permalink" href="#CheckAttr">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CheckAttr(name, value <a href="/pkg/builtin/#string">string</a>, attrs *<a href="/pkg/github.com/hyperledger/fabric-chaincode-go/pkg/attrmgr/">attrmgr</a>.<a href="/pkg/github.com/hyperledger/fabric-chaincode-go/pkg/attrmgr/#Attributes">Attributes</a>) (<a href="/pkg/builtin/#bool">bool</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+CheckAttr return value for a certificate attribute or check the value of an attribute
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="CheckSignatureFrom">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=3609:3673#L126">CheckSignatureFrom</a>
+				<a class="permalink" href="#CheckSignatureFrom">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CheckSignatureFrom(certRoot []<a href="/pkg/builtin/#byte">byte</a>, certIssue []<a href="/pkg/builtin/#byte">byte</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+CheckSignatureFrom verifies that the signature on certIssue is a valid signature from Root Cert.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="CompareCertsPemBase64">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=1451:1503#L45">CompareCertsPemBase64</a>
+				<a class="permalink" href="#CompareCertsPemBase64">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CompareCertsPemBase64(cert1, cert2 <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#bool">bool</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="ConcatenateBytes">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=1831:1875#L72">ConcatenateBytes</a>
+				<a class="permalink" href="#ConcatenateBytes">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func ConcatenateBytes(data ...[]<a href="/pkg/builtin/#byte">byte</a>) []<a href="/pkg/builtin/#byte">byte</a></pre>
+			<p>
+ConcatenateBytes is useful for combining multiple arrays of bytes, especially for
+signatures or digests over multiple fields
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Contains">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=2839:2884#L119">Contains</a>
+				<a class="permalink" href="#Contains">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Contains(arr []<a href="/pkg/builtin/#string">string</a>, elem <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#bool">bool</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="CountAsset">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=4472:4551#L189">CountAsset</a>
+				<a class="permalink" href="#CountAsset">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CountAsset(stub <a href="/pkg/github.com/hyperledger/fabric-chaincode-go/shim/">shim</a>.<a href="/pkg/github.com/hyperledger/fabric-chaincode-go/shim/#ChaincodeStubInterface">ChaincodeStubInterface</a>, KeyAsset <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#int">int</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+CountAsset returns the number of assets that start with a partial key
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="CreateIndex">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=4913:5008#L210">CreateIndex</a>
+				<a class="permalink" href="#CreateIndex">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CreateIndex(stub <a href="/pkg/github.com/hyperledger/fabric-chaincode-go/shim/">shim</a>.<a href="/pkg/github.com/hyperledger/fabric-chaincode-go/shim/#ChaincodeStubInterface">ChaincodeStubInterface</a>, indexName <a href="/pkg/builtin/#string">string</a>, attributes []<a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+CreateIndex create search index for ledger
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: indexName -
+1: attributes -
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: error
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DeepCopy">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=2135:2184#L88">DeepCopy</a>
+				<a class="permalink" href="#DeepCopy">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DeepCopy(v interface{}) (interface{}, <a href="/pkg/builtin/#error">error</a>)</pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="DeleteIndex">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=6014:6132#L239">DeleteIndex</a>
+				<a class="permalink" href="#DeleteIndex">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DeleteIndex(stub <a href="/pkg/github.com/hyperledger/fabric-chaincode-go/shim/">shim</a>.<a href="/pkg/github.com/hyperledger/fabric-chaincode-go/shim/#ChaincodeStubInterface">ChaincodeStubInterface</a>, indexName <a href="/pkg/builtin/#string">string</a>, attributes []<a href="/pkg/builtin/#string">string</a>, validateDelState <a href="/pkg/builtin/#bool">bool</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+DeleteIndex remove search index for ledger
+</p>
+<p>
+Arguments:
+</p>
+<pre>0: indexName -
+1: attributes -
+</pre>
+<p>
+Returns:
+</p>
+<pre>0: error
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DidFormat">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=4835:4875#L173">DidFormat</a>
+				<a class="permalink" href="#DidFormat">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DidFormat(hashPubKey <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#string">string</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="FillFromParsedCert">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=6871:6932#L249">FillFromParsedCert</a>
+				<a class="permalink" href="#FillFromParsedCert">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func FillFromParsedCert(cert *<a href="/pkg/crypto/x509/">x509</a>.<a href="/pkg/crypto/x509/#Certificate">Certificate</a>, attrs *<a href="#Attrs">Attrs</a>)</pre>
+			<p>
+FillFromParsedCert to extract non-standard or others attributes
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="FunctionCompare">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=3342:3391#L142">FunctionCompare</a>
+				<a class="permalink" href="#FunctionCompare">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func FunctionCompare(f1, f2 <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#bool">bool</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+FunctionCompare compares one function name with another,
+the input parameter can be in the form &#34;org.tecnomatica.participant:GetParticipant&#34;
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GenerateBytesUUID">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=352:383#L11">GenerateBytesUUID</a>
+				<a class="permalink" href="#GenerateBytesUUID">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GenerateBytesUUID() []<a href="/pkg/builtin/#byte">byte</a></pre>
+			<p>
+GenerateBytesUUID returns a UUID based on RFC 4122 returning the generated bytes
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GenerateUUID">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=746:772#L28">GenerateUUID</a>
+				<a class="permalink" href="#GenerateUUID">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GenerateUUID() <a href="/pkg/builtin/#string">string</a></pre>
+			<p>
+GenerateUUID returns a UUID based on RFC 4122
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetAttrsNonStandardCert">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=1769:1840#L60">GetAttrsNonStandardCert</a>
+				<a class="permalink" href="#GetAttrsNonStandardCert">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetAttrsNonStandardCert(certPem []<a href="/pkg/builtin/#byte">byte</a>) (map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="GetDateCertificate">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=4568:4633#L164">GetDateCertificate</a>
+				<a class="permalink" href="#GetDateCertificate">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetDateCertificate(cert *<a href="/pkg/crypto/x509/">x509</a>.<a href="/pkg/crypto/x509/#Certificate">Certificate</a>) map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a></pre>
+			<p>
+GetDateCertificate returns the issue and expiration date of a certificate
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetFirstElem">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=2968:3006#L128">GetFirstElem</a>
+				<a class="permalink" href="#GetFirstElem">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetFirstElem(arr []<a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#string">string</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="GetTxTimestampRFC3339">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=2420:2496#L102">GetTxTimestampRFC3339</a>
+				<a class="permalink" href="#GetTxTimestampRFC3339">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetTxTimestampRFC3339(stub <a href="/pkg/github.com/hyperledger/fabric-chaincode-go/shim/">shim</a>.<a href="/pkg/github.com/hyperledger/fabric-chaincode-go/shim/#ChaincodeStubInterface">ChaincodeStubInterface</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="GetX509CertFromPem">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=885:957#L26">GetX509CertFromPem</a>
+				<a class="permalink" href="#GetX509CertFromPem">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetX509CertFromPem(certPemBase64 <a href="/pkg/builtin/#string">string</a>) (*<a href="/pkg/crypto/x509/">x509</a>.<a href="/pkg/crypto/x509/#Certificate">Certificate</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+GetX509CertFromPem use to validate cert
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetX509CertFromPemByte">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=405:475#L11">GetX509CertFromPemByte</a>
+				<a class="permalink" href="#GetX509CertFromPemByte">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetX509CertFromPemByte(certPem []<a href="/pkg/builtin/#byte">byte</a>) (*<a href="/pkg/crypto/x509/">x509</a>.<a href="/pkg/crypto/x509/#Certificate">Certificate</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+GetX509CertFromPemByte use to validate cert
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HasExpired">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=3928:3973#L144">HasExpired</a>
+				<a class="permalink" href="#HasExpired">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HasExpired(cert *<a href="/pkg/crypto/x509/">x509</a>.<a href="/pkg/crypto/x509/#Certificate">Certificate</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="MapToSlice">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=4218:4266#L179">MapToSlice</a>
+				<a class="permalink" href="#MapToSlice">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func MapToSlice(dMap map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a>) []<a href="/pkg/builtin/#string">string</a></pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="NormalizeString">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=1384:1424#L59">NormalizeString</a>
+				<a class="permalink" href="#NormalizeString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func NormalizeString(text <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#string">string</a></pre>
+			<p>
+NormalizeString
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="ParseRFC3339toTime">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=2677:2730#L111">ParseRFC3339toTime</a>
+				<a class="permalink" href="#ParseRFC3339toTime">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func ParseRFC3339toTime(tm <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/time/">time</a>.<a href="/pkg/time/#Time">Time</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="SliceToMap">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=4070:4125#L172">SliceToMap</a>
+				<a class="permalink" href="#SliceToMap">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func SliceToMap(slice []<a href="/pkg/builtin/#string">string</a>, dMap map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a>)</pre>
+			
+			
+			
+
+		
+			
+			
+			<h2 id="ToChaincodeArgs">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=1208:1253#L50">ToChaincodeArgs</a>
+				<a class="permalink" href="#ToChaincodeArgs">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func ToChaincodeArgs(args ...<a href="/pkg/builtin/#string">string</a>) [][]<a href="/pkg/builtin/#byte">byte</a></pre>
+			<p>
+ToChaincodeArgs converts string args to []byte args
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="UniqStr">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=3825:3860#L155">UniqStr</a>
+				<a class="permalink" href="#UniqStr">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func UniqStr(col []<a href="/pkg/builtin/#string">string</a>) []<a href="/pkg/builtin/#string">string</a></pre>
+			<p>
+UniqStr returns a copy if the passed slice with only unique string results.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="VerifyIssuedByRootCert">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=2950:3018#L101">VerifyIssuedByRootCert</a>
+				<a class="permalink" href="#VerifyIssuedByRootCert">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func VerifyIssuedByRootCert(certRoot []<a href="/pkg/builtin/#byte">byte</a>, certIssue []<a href="/pkg/builtin/#byte">byte</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+VerifyIssuedByRootCert Verify cert issued by Root Certificate.
+</p>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="Attrs">type <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=5711:6091#L208">Attrs</a>
+				<a class="permalink" href="#Attrs">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Attrs struct {
+<span id="Attrs.Name"></span>    Name               <a href="/pkg/builtin/#string">string</a> `json:&#34;name&#34;`
+<span id="Attrs.DNI"></span>    DNI                <a href="/pkg/builtin/#string">string</a> `json:&#34;dni&#34;`
+<span id="Attrs.Company"></span>    Company            <a href="/pkg/builtin/#string">string</a> `json:&#34;company&#34;`
+<span id="Attrs.Position"></span>    Position           <a href="/pkg/builtin/#string">string</a> `json:&#34;position&#34;`
+<span id="Attrs.Country"></span>    Country            <a href="/pkg/builtin/#string">string</a> `json:&#34;country&#34;`
+<span id="Attrs.Province"></span>    Province           <a href="/pkg/builtin/#string">string</a> `json:&#34;province&#34;`
+<span id="Attrs.Locality"></span>    Locality           <a href="/pkg/builtin/#string">string</a> `json:&#34;locality&#34;`
+<span id="Attrs.OrganizationalUnit"></span>    OrganizationalUnit <a href="/pkg/builtin/#string">string</a> `json:&#34;organizationalUnit&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="GetAttrsCert">func <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/crypto.go?s=6326:6373#L233">GetAttrsCert</a>
+					<a class="permalink" href="#GetAttrsCert">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetAttrsCert(cert *<a href="/pkg/crypto/x509/">x509</a>.<a href="/pkg/crypto/x509/#Certificate">Certificate</a>) <a href="#Attrs">Attrs</a></pre>
+				<p>
+GetAttrsCert populates Attrs asset with multi-value RDNs:
+</p>
+<pre>- Name
+- DNI
+- Country
+- Company
+- OrganizationalUnit
+- Locality
+- Province
+</pre>
+
+				
+				
+			
+
+			
+		
+			
+			
+			<h2 id="BeforeTransactionUnmarshalResponse">type <a href="/src/github.com/ic-matcom/cc-identity-go/lib-utils/tools.go?s=3061:3193#L135">BeforeTransactionUnmarshalResponse</a>
+				<a class="permalink" href="#BeforeTransactionUnmarshalResponse">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type BeforeTransactionUnmarshalResponse struct {
+<span id="BeforeTransactionUnmarshalResponse.Id"></span>    Id       <a href="/pkg/builtin/#string">string</a> `json:&#34;id&#34;` <span class="comment">// user id or did</span>
+<span id="BeforeTransactionUnmarshalResponse.Function"></span>    Function <a href="/pkg/builtin/#string">string</a> `json:&#34;function&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.16.3.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

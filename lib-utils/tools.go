@@ -6,8 +6,6 @@ import (
 	"fmt"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-
 	"golang.org/x/text/runes"
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/norm"
@@ -270,43 +268,6 @@ func DeleteIndex(stub shim.ChaincodeStubInterface, indexName string, attributes 
 
 type smallIssuer struct {
 	CertPem string `json:"certPem"` // cert PEM active
-}
-
-// CertificateAlreadyExists check if the certificate already exists in the world-state
-//
-// Arguments:
-//		0: certPemBase64 - certificate to validate
-//		1: indexName -
-//		2: attributes -
-// Returns:
-//		0: bool
-//		1: error
-func CertificateAlreadyExists(ctx contractapi.TransactionContextInterface, certPemBase64 string, indexName string, attributes []string) (bool, error) {
-	log.Printf("[inside][certificateAlreadyExists]")
-
-	issuesResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(indexName, attributes)
-	if err != nil {
-		return false, err
-	}
-	defer issuesResultsIterator.Close()
-
-	for issuesResultsIterator.HasNext() {
-		responseRange, err := issuesResultsIterator.Next()
-		if responseRange == nil {
-			return false, err
-		}
-
-		var crt smallIssuer
-		err = json.Unmarshal(responseRange.Value, &crt)
-		if err != nil {
-			return false, err
-		}
-
-		if CompareCertsPemBase64(crt.CertPem, certPemBase64) {
-			return true, nil
-		}
-	}
-	return false, nil
 }
 
 // validateArgsLen ensures `args` has at least size `length`.
