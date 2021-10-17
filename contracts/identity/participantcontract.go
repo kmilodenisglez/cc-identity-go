@@ -42,11 +42,17 @@ func (ic *ContractIdentity) OnlyDevParticipant(ctx contractapi.TransactionContex
 	hashPublicKey := sha256.Sum256([]byte("valid did"))
 	did, _ := model.CreateDid(hex.EncodeToString(hashPublicKey[:]))
 
-	_, _ = ic.GetRoles(ctx)
+	roles, err := ic.GetRoles(ctx)
+	if err != nil {
+		return "", fmt.Errorf(err.Error())
+	} else if len(roles) < 1 {
+		return "", fmt.Errorf("there is no role in the ledger")
+	}
 
 	identityRequest := model.ParticipantCreateRequest{
 		Did:     did,
 		CertPem: b64UserWithAttrsCert,
+		Roles:   []string{roles[0].ID},
 	}
 	identity, err := ic.CreateParticipant(ctx, identityRequest)
 	if err != nil {
