@@ -195,21 +195,6 @@ func MapToSlice(dMap map[string]string) []string {
 	return slice
 }
 
-//CountAsset returns the number of assets that start with a partial key
-func CountAsset(stub shim.ChaincodeStubInterface, KeyAsset string) (int, error) {
-	countAsset := 0
-	resultsIterator, err := stub.GetStateByRange(KeyAsset, "")
-	if err != nil {
-		return countAsset, err
-	}
-
-	defer resultsIterator.Close()
-	for resultsIterator.HasNext() {
-		countAsset++
-	}
-	return countAsset, nil
-}
-
 // CreateIndex create search index for ledger
 //
 // Arguments:

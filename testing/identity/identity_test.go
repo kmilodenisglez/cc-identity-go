@@ -231,12 +231,12 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		actualIssuer, err := sc.CreateIssuer(ctx, issuerRequest)
 		gomega.Expect(err).To(gomega.BeNil())
 		actualIssuerJSON, err := json.Marshal(actualIssuer)
-		expectedIssuer := identity.Issuer{
-			DocType: identity.IssuerDocType,
+		expectedIssuer := model.IssuerQueryResponse{
+			//DocType: identity.IssuerDocType,
 			ID:      actualIssuer.ID,
 			Name:    "Autoridad de Certificación Tecnomática",
 			CertPem: b64RootCertTecnomatica,
-			Attrs: lus.Attrs{
+			Attrs: model.Attrs{
 				Name:               "Autoridad de Certificación Tecnomática",
 				DNI:                "",
 				Position:           "",
