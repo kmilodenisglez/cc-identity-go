@@ -3,8 +3,6 @@ package identity
 import (
 	"encoding/json"
 	"fmt"
-	"unsafe"
-
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
 	model "github.com/ic-matcom/model-traceability-go"
@@ -96,7 +94,17 @@ func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInter
 		return nil, fmt.Errorf("issuer %s could not be created: %v", issuerRequest.Name, err)
 	}
 
-	return (*model.IssuerQueryResponse)(unsafe.Pointer(&issuer)), nil
+	return &model.IssuerQueryResponse{
+		ID:          issuer.ID,
+		Name:        issuer.Name,
+		CertPem:     issuer.CertPem,
+		Attrs:       model.Attrs(issuer.Attrs),
+		AttrsExtras: issuer.AttrsExtras,
+		IssuedTime:  issuer.IssuedTime,
+		ExpiresTime: issuer.ExpiresTime,
+		Active:      issuer.Active,
+		ByDefault:   issuer.ByDefault,
+	}, nil
 }
 
 // IssuerUpdateRequest
@@ -188,7 +196,17 @@ func (ic *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterfac
 		return nil, err
 	}
 
-	return (*model.IssuerQueryResponse)(unsafe.Pointer(&issuer)), nil
+	return &model.IssuerQueryResponse{
+		ID:          issuerJD.ID,
+		Name:        issuerJD.Name,
+		CertPem:     issuerJD.CertPem,
+		Attrs:       model.Attrs(issuerJD.Attrs),
+		AttrsExtras: issuerJD.AttrsExtras,
+		IssuedTime:  issuerJD.IssuedTime,
+		ExpiresTime: issuerJD.ExpiresTime,
+		Active:      issuerJD.Active,
+		ByDefault:   issuerJD.ByDefault,
+	}, nil
 }
 
 // DeleteIssuer delete an issuer from the ledger
