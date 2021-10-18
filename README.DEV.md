@@ -35,11 +35,12 @@ peer chaincode invoke  -c '{"function":"org.identity:InitLedger","Args":[]}' -o 
 # populate issuer for dev (arg: none)
 peer chaincode invoke  -c '{"function":"org.identity:OnlyDevIssuer","Args":[]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 
+# populate access and role for dev (arg: none)
+peer chaincode invoke  -c '{"function":"org.identity:OnlyDevAccess","Args":[]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
+
 # populate identity for dev (arg: none)
 peer chaincode invoke  -c '{"function":"org.identity:OnlyDevParticipant","Args":[]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 
-# populate access and role for dev (arg: none)
-peer chaincode invoke  -c '{"function":"org.identity:OnlyDevAccess","Args":[]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
  
 ```
 ### interact with the access and role transactions
