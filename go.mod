@@ -7,7 +7,7 @@ require (
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20210718160520-38d29fabecb9
 	github.com/hyperledger/fabric-contract-api-go v1.1.1
 	github.com/hyperledger/fabric-protos-go v0.0.0-20210422135545-37e930696e2a
-	github.com/ic-matcom/model-traceability-go v0.0.0-20211017213830-3267ac212a07
+	github.com/ic-matcom/model-traceability-go v0.0.0-20211018004148-cf3844d358cb
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.4.1
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.16.0

@@ -72,6 +72,10 @@ github.com/hyperledger/fabric-protos-go v0.0.0-20210422135545-37e930696e2a h1:sJ
 github.com/hyperledger/fabric-protos-go v0.0.0-20210422135545-37e930696e2a/go.mod h1:xVYTjK4DtZRBxZ2D9aE4y6AbLaPwue2o/criQyQbVD0=
 github.com/ic-matcom/model-traceability-go v0.0.0-20211017213830-3267ac212a07 h1:D9grP7z0a7g7Q8TNl4CsAKDZCjiEcv8KajlC6RZ3ryA=
 github.com/ic-matcom/model-traceability-go v0.0.0-20211017213830-3267ac212a07/go.mod h1:gd3GA9N3dEMspQXTKxp0fGdVB+rV7VwtlyWQg/dVO0g=
+github.com/ic-matcom/model-traceability-go v0.0.0-20211018001525-2485cfb9af5a h1:j02bxjVtU7qLxxT6oPGcDbhAeuwkTaK6MrJPy7E13qM=
+github.com/ic-matcom/model-traceability-go v0.0.0-20211018001525-2485cfb9af5a/go.mod h1:gd3GA9N3dEMspQXTKxp0fGdVB+rV7VwtlyWQg/dVO0g=
+github.com/ic-matcom/model-traceability-go v0.0.0-20211018004148-cf3844d358cb h1:oAEIA/MegFO8lKIhOgv/RyaCIY+uNi7NhkSQM+hX5uA=
+github.com/ic-matcom/model-traceability-go v0.0.0-20211018004148-cf3844d358cb/go.mod h1:gd3GA9N3dEMspQXTKxp0fGdVB+rV7VwtlyWQg/dVO0g=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
 github.com/joho/godotenv v1.3.0 h1:Zjp+RcGpHhGlrMbJzXTrZZPrWj+1vfm90La1wgB6Bhc=
 github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=

@@ -49,7 +49,7 @@ func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInter
 		return nil, err
 	}
 
-	cFunctions := make(map[string]string, 0)
+	cFunctions := make(map[string]string)
 	// using map, because it is very fast
 	lus.SliceToMap(request.ContractFunctions, cFunctions)
 

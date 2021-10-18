@@ -3,6 +3,7 @@ package identity
 import (
 	"encoding/json"
 	"fmt"
+	"unsafe"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
@@ -33,7 +34,7 @@ func (ic *ContractIdentity) OnlyDevIssuer(ctx contractapi.TransactionContextInte
 // Returns:
 //		0: Issuer
 //		1: error
-func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInterface, issuerRequest model.IssuerCreateRequest) (*Issuer, error) {
+func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInterface, issuerRequest model.IssuerCreateRequest) (*model.IssuerQueryResponse, error) {
 	log.Printf("[%s][CreateIssuer]", ctx.GetStub().GetChannelID())
 
 	// check if client-node connected as admin
@@ -95,7 +96,7 @@ func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInter
 		return nil, fmt.Errorf("issuer %s could not be created: %v", issuerRequest.Name, err)
 	}
 
-	return issuer, nil
+	return (*model.IssuerQueryResponse)(unsafe.Pointer(&issuer)), nil
 }
 
 // IssuerUpdateRequest
@@ -111,7 +112,7 @@ type IssuerUpdateRequest struct {
 // Returns:
 //		0: Issuer
 //		1: error
-func (ic *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterface, issuerRequest IssuerUpdateRequest) (*Issuer, error) {
+func (ic *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterface, issuerRequest IssuerUpdateRequest) (*model.IssuerQueryResponse, error) {
 	log.Printf("[%s][UpdateIssuer]", ctx.GetStub().GetChannelID())
 
 	// check if client-node connected as admin
@@ -143,7 +144,7 @@ func (ic *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterf
 	// Create Issuer
 	issuerToUpdate.Name = commonName
 	issuerToUpdate.CertPem = issuerRequest.CertPem
-	issuerToUpdate.Attrs = attrs
+	issuerToUpdate.Attrs = model.Attrs(attrs)
 	issuerToUpdate.IssuedTime = dateCert["issuedTime"]
 	issuerToUpdate.ExpiresTime = dateCert["expiresTime"]
 
@@ -167,7 +168,7 @@ func (ic *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterf
 // Returns:
 //		0: Issuer
 //		1: error
-func (ic *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*Issuer, error) {
+func (ic *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*model.IssuerQueryResponse, error) {
 	log.Printf("[%s][GetIssuer]", ctx.GetStub().GetChannelID())
 	key, err := ctx.GetStub().CreateCompositeKey(IssuerDocType, []string{request.ID})
 	if err != nil {
@@ -187,7 +188,7 @@ func (ic *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterfac
 		return nil, err
 	}
 
-	return &issuerJD, nil
+	return (*model.IssuerQueryResponse)(unsafe.Pointer(&issuer)), nil
 }
 
 // DeleteIssuer delete an issuer from the ledger
@@ -226,7 +227,7 @@ func (ic *ContractIdentity) DeleteIssuer(ctx contractapi.TransactionContextInter
 // Returns:
 //		0: []Issuer
 //		1: error
-func (ic *ContractIdentity) GetIssuers(ctx contractapi.TransactionContextInterface) ([]Issuer, error) {
+func (ic *ContractIdentity) GetIssuers(ctx contractapi.TransactionContextInterface) ([]model.IssuerQueryResponse, error) {
 	log.Printf("[%s][GetIssuers]", ctx.GetStub().GetChannelID())
 
 	resultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(IssuerDocType, []string{})
@@ -235,14 +236,14 @@ func (ic *ContractIdentity) GetIssuers(ctx contractapi.TransactionContextInterfa
 	}
 	defer resultsIterator.Close()
 
-	var items []Issuer
+	var items []model.IssuerQueryResponse
 	for resultsIterator.HasNext() {
 		responseRange, err := resultsIterator.Next()
 		if responseRange == nil {
 			return nil, err
 		}
 
-		var item Issuer
+		var item model.IssuerQueryResponse
 		err = json.Unmarshal(responseRange.Value, &item)
 		if err != nil {
 			return nil, err
@@ -250,6 +251,8 @@ func (ic *ContractIdentity) GetIssuers(ctx contractapi.TransactionContextInterfa
 		items = append(items, item)
 	}
 	return items, nil
+
+	//return  (*model.IssuerQueryResponse)(unsafe.Pointer(&items)), nil
 }
 
 // GetIssuerHistory returns the chain of custody for a issuer since issuance
