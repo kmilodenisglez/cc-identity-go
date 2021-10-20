@@ -339,12 +339,7 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		chaincodeStub.GetCreatorReturns(org1MSPAdmin, nil)
 		// base64 encode
 		b64ClientCert := base64.StdEncoding.EncodeToString(testing.CertByteUserYisel)
-		cert, err := lus.GetX509CertFromPemByte(testing.CertByteUserYisel)
 		gomega.Expect(err).To(gomega.BeNil())
-		dateCert := lus.GetDateCertificate(cert)
-
-		ts := time.Unix(testing.Timestamp.Seconds, int64(testing.Timestamp.Nanos))
-		formattedTime := ts.Format(time.RFC3339)
 
 		identRequest := model.ParticipantCreateRequest{
 			Did:        testing.Did1,
@@ -362,30 +357,10 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		actual, err := sc.CreateParticipant(ctx, identRequest)
 		gomega.Expect(err).To(gomega.BeNil())
 		actualJSON, err := json.Marshal(actual)
-		expected := identity.Participant{
-			DocType:  identity.ParticipantDocType,
-			ID:       actual.ID,
-			Did:      testing.Did1,
-			CertPem:  b64ClientCert,
-			IssuerID: testing.ID1,
-			Creator:  "",
-			Roles:    []string{},
-			Attrs: lus.Attrs{
-				Name:               "Yisel Astiazarain Din",
-				DNI:                "87051211457",
-				Position:           "Esp. B Ciencias Inf.",
-				Country:            "CU",
-				Company:            "Tecnomática",
-				Locality:           "",
-				Province:           "La Habana",
-				OrganizationalUnit: "Cupet-Minem",
-			},
-			AttrsExtras: map[string]string{},
-			Time:        formattedTime,
-			IssuedTime:  dateCert["issuedTime"],
-			ExpiresTime: dateCert["expiresTime"],
-			Active:      true,
-			MspID:       "",
+		expected := model.ParticipantResponse{
+			Did:     testing.Did1,
+			Roles:   []string{},
+			Creator: nil,
 		}
 		expectedJSON := testing.MarshalJSONOrPanic(expected)
 		gomega.Expect(err).To(gomega.BeNil())

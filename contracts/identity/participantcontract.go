@@ -63,7 +63,7 @@ func (ic *ContractIdentity) OnlyDevParticipant(ctx contractapi.TransactionContex
 }
 
 // TODO: missing validates ca cert - participant cer
-func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantCreateRequest) (*Participant, error) {
+func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantCreateRequest) (*model.ParticipantResponse, error) {
 	log.Printf("[%s][CreateParticipant]", ctx.GetStub().GetChannelID())
 
 	// check if client-node connected as admin
@@ -199,7 +199,10 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		return nil, fmt.Errorf("failed to create identity: %v", err)
 	}
 
-	return &identity, nil
+	return &model.ParticipantResponse{
+		Did:   identity.Did,
+		Roles: identity.Roles,
+	}, nil
 }
 
 // TODO: debug
