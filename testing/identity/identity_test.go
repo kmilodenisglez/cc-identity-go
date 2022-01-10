@@ -14,7 +14,7 @@ import (
 	"github.com/ic-matcom/cc-identity-go/testing"
 	"github.com/ic-matcom/cc-identity-go/testing/mocks"
 	"github.com/ic-matcom/cc-identity-go/testing/testcerts"
-	model "github.com/ic-matcom/model-traceability-go"
+	model "github.com/ic-matcom/model-identity-go"
 	"github.com/onsi/ginkgo"
 	"github.com/onsi/gomega"
 	"time"

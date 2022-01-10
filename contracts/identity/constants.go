@@ -13,6 +13,7 @@ const (
 	Deleted = "deleted"
 
 	// objectType
-	ObjectTypeParticipantDeleted = ParticipantDocType + ":" + Deleted + "~did" // use to index deleted participant
-	ObjectTypeIssuerByDefault    = IssuerDocType + ":default~did"
+	ObjectTypeParticipantByDidUUID = ParticipantDocType + ":did~uuid"
+	ObjectTypeParticipantDeleted   = ParticipantDocType + ":" + Deleted + "~did~uuid" // use to index deleted participant
+	ObjectTypeIssuerByDefault      = IssuerDocType + ":default~uuid"
 )

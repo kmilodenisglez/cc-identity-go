@@ -55,3 +55,7 @@ func (c *Cert) CertBytes() ([]byte, error) {
 	//return c.readFile(`./` + c.CertFilename)
 	return c.readFile(c.CertFilename)
 }
+
+func (c *Cert) PrivateBytes() ([]byte, error) {
+	return c.readFile(c.PKeyFilename)
+}

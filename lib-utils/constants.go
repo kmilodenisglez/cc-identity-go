@@ -3,8 +3,12 @@ package lib_utils
 // Error responses
 // errorXXX occurs when XXX
 const (
-	errorParseJws  = `error parsing into JWS`
-	errorParseX509 = `error parsing into X509`
-	errorBase64    = `error decoding into base64`
-	errorVerifying = `error verifying signature `
+	ErrorParseJWS        = `error parsing into JWS`
+	ErrorParseX509       = `error parsing into X509`
+	ErrorBase64          = `error decoding into base64`
+	ErrorVerifying       = `error verifying signature`
+	ErrorGetMSPID        = `failed getting the client's MSPID: %v`
+	ErrorGetIdentity     = `failed to get identity %s`
+	ErrorIdentityExists  = `identity %s already exists`
+	ErrorDefaultNotExist = `%s does not exist`
 )

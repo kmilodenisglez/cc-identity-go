@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
-	model "github.com/ic-matcom/model-traceability-go"
+	model "github.com/ic-matcom/model-identity-go"
 	"log"
 )
 

@@ -6,7 +6,7 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
-	model "github.com/ic-matcom/model-traceability-go"
+	modelapi "github.com/ic-matcom/model-identity-go/api"
 	"log"
 )
 
@@ -19,7 +19,7 @@ func (ic *ContractIdentity) OnlyDevAccess(ctx contractapi.TransactionContextInte
 		return fmt.Errorf(err.Error())
 	}
 
-	roleCupetQualityGroup := model.RoleCreateRequest{
+	roleCupetQualityGroup := modelapi.RoleCreateRequest{
 		Name:              "Gestor de identidad",
 		ContractFunctions: ic.GetTransactions(),
 	}
@@ -40,7 +40,7 @@ func (ic *ContractIdentity) OnlyDevAccess(ctx contractapi.TransactionContextInte
 // Returns:
 //		0: AccessResponse
 //		1: error
-func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInterface, request AccessCreateRequest) (*model.AccessResponse, error) {
+func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInterface, request AccessCreateRequest) (*modelapi.AccessResponse, error) {
 	log.Printf("[%s][CreateAccess]", ctx.GetStub().GetChannelID())
 	lowerNonSpace := lus.NormalizeString(request.ContractName)
 
@@ -65,7 +65,7 @@ func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInter
 	if err := ctx.GetStub().PutState(key, accessJE); err != nil {
 		return nil, fmt.Errorf("access %s could not be created: %v", request.ContractName, err)
 	}
-	return &model.AccessResponse{
+	return &modelapi.AccessResponse{
 		DocType:           access.DocType,
 		ID:                access.ID,
 		ContractFunctions: request.ContractFunctions,
@@ -79,7 +79,7 @@ func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInter
 // Returns:
 //		0: AccessResponse
 //		1: error
-func (ic *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*model.AccessResponse, error) {
+func (ic *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterface, request modelapi.GetRequest) (*modelapi.AccessResponse, error) {
 	log.Printf("[%s][GetAccess]", ctx.GetStub().GetChannelID())
 
 	key, err := ctx.GetStub().CreateCompositeKey(AccessDocType, []string{request.ID})
@@ -99,7 +99,7 @@ func (ic *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterfac
 	if err != nil {
 		return nil, err
 	}
-	return &model.AccessResponse{
+	return &modelapi.AccessResponse{
 		DocType:           itemJD.DocType,
 		ID:                itemJD.ID,
 		ContractFunctions: lus.MapToSlice(itemJD.ContractFunctions),
@@ -111,9 +111,9 @@ func (ic *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterfac
 // Arguments:
 //		0: none
 // Returns:
-//		0: []model.AccessResponse
+//		0: []modelapi.AccessResponse
 //		1: error
-func (ic *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface) ([]model.AccessResponse, error) {
+func (ic *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface) ([]modelapi.AccessResponse, error) {
 	log.Printf("[%s][GetAccesses]", ctx.GetStub().GetChannelID())
 
 	accessesResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(AccessDocType, []string{})
@@ -122,7 +122,7 @@ func (ic *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterf
 	}
 	defer accessesResultsIterator.Close()
 
-	var items []model.AccessResponse
+	var items []modelapi.AccessResponse
 	if accessesResultsIterator.HasNext() {
 		responseRange, err := accessesResultsIterator.Next()
 		if responseRange == nil {
@@ -134,7 +134,7 @@ func (ic *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterf
 		if err != nil {
 			return nil, err
 		}
-		items = append(items, model.AccessResponse{
+		items = append(items, modelapi.AccessResponse{
 			DocType:           item.DocType,
 			ID:                item.ID,
 			Description:       item.Description,
@@ -181,7 +181,7 @@ func (ic *ContractIdentity) updateAccess(ctx contractapi.TransactionContextInter
 }
 
 // deleteAccess
-func (ic *ContractIdentity) deleteAccess(ctx contractapi.TransactionContextInterface, request model.GetRequest) error {
+func (ic *ContractIdentity) deleteAccess(ctx contractapi.TransactionContextInterface, request modelapi.GetRequest) error {
 	log.Printf("[%s][deleteAccess]", ctx.GetStub().GetChannelID())
 	if err := lus.DeleteIndex(ctx.GetStub(), AccessDocType, []string{request.ID}, true); err != nil {
 		return err

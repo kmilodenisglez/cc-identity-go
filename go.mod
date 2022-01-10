@@ -3,11 +3,12 @@ module github.com/ic-matcom/cc-identity-go
 go 1.16
 
 require (
+	github.com/go-jose/go-jose/v3 v3.0.0
 	github.com/golang/protobuf v1.5.2
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20210718160520-38d29fabecb9
 	github.com/hyperledger/fabric-contract-api-go v1.1.1
 	github.com/hyperledger/fabric-protos-go v0.0.0-20210422135545-37e930696e2a
-	github.com/ic-matcom/model-traceability-go v0.0.0-20211018004148-cf3844d358cb
+	github.com/ic-matcom/model-identity-go v0.0.0-20220110234735-b67bb770c1b5
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.4.1
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.16.0

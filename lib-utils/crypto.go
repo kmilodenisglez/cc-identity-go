@@ -8,6 +8,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
+
 	"github.com/hyperledger/fabric-chaincode-go/pkg/attrmgr"
 	"github.com/hyperledger/fabric-chaincode-go/pkg/cid"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -193,7 +194,7 @@ func checkSignature(payload string, key string) (map[string]interface{}, error) 
 func parseMessage(message string) (*jose.JSONWebSignature, error) {
 	jwsSignature, err := jose.ParseSigned(message)
 	if err != nil {
-		return nil, errors.New(errorParseJws)
+		return nil, errors.New(ErrorParseJWS)
 	}
 	return jwsSignature, nil
 }
@@ -204,13 +205,13 @@ func parsePublicKeyX509(publicKey string) (interface{}, error) {
 	d := make([]byte, base64.StdEncoding.DecodedLen(len(base64Data)))
 	n, err := base64.StdEncoding.Decode(d, base64Data)
 	if err != nil {
-		return nil, errors.New(errorBase64)
+		return nil, errors.New(ErrorBase64)
 	}
 	d = d[:n]
 
 	publicKeyImported, err := x509.ParsePKIXPublicKey(d)
 	if err != nil {
-		return nil, errors.New(errorParseX509)
+		return nil, errors.New(ErrorParseX509)
 	}
 	return publicKeyImported, nil
 }
@@ -321,12 +322,18 @@ func parseKey(publicKey string) string {
 	return parsed[0]
 }
 
-func verifySignature(message string, key string) ([]byte, error) {
+func VerifySignature(message string, key string) ([]byte, error) {
 	msg, err := parseMessage(message)
+	if err != nil {
+		return nil, err
+	}
 	pbkey, err := parsePublicKeyX509(key)
+	if err != nil {
+		return nil, err
+	}
 	result, err := jose.JSONWebSignature.Verify(*msg, pbkey)
 	if err != nil {
-		return nil, errors.New(errorVerifying)
+		return nil, errors.New(ErrorVerifying)
 	}
 	return result, nil
 }

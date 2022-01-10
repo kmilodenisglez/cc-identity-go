@@ -6,12 +6,13 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
-	model "github.com/ic-matcom/model-traceability-go"
+	modelapi "github.com/ic-matcom/model-identity-go/api"
 	"log"
 )
 
+// TODO: remove model-traceability-go dependence
 // CreateRole
-func (ic *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterface, request model.RoleCreateRequest) (*model.RoleResponse, error) {
+func (ic *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterface, request modelapi.RoleCreateRequest) (*modelapi.RoleResponse, error) {
 	log.Printf("[%s][CreateRole]", ctx.GetStub().GetChannelID())
 
 	id := lus.GenerateUUID()
@@ -39,7 +40,7 @@ func (ic *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterfa
 	if err := ctx.GetStub().PutState(key, roleJE); err != nil {
 		return nil, fmt.Errorf("role %s could not be created: %v", request.Name, err)
 	}
-	return &model.RoleResponse{
+	return &modelapi.RoleResponse{
 		DocType:           role.DocType,
 		ID:                role.ID,
 		Name:              role.Name,
@@ -48,7 +49,7 @@ func (ic *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterfa
 }
 
 // GetRole
-func (ic *ContractIdentity) GetRole(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*model.RoleResponse, error) {
+func (ic *ContractIdentity) GetRole(ctx contractapi.TransactionContextInterface, request modelapi.GetRequest) (*modelapi.RoleResponse, error) {
 	log.Printf("[%s][GetRole]", ctx.GetStub().GetChannelID())
 
 	key, err := ctx.GetStub().CreateCompositeKey(RoleDocType, []string{request.ID})
@@ -70,7 +71,7 @@ func (ic *ContractIdentity) GetRole(ctx contractapi.TransactionContextInterface,
 		return nil, err
 	}
 
-	return &model.RoleResponse{
+	return &modelapi.RoleResponse{
 		DocType:           itemJD.DocType,
 		ID:                itemJD.ID,
 		Name:              itemJD.Name,
@@ -79,7 +80,7 @@ func (ic *ContractIdentity) GetRole(ctx contractapi.TransactionContextInterface,
 }
 
 // GetRoles get all role
-func (ic *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface) ([]model.RoleResponse, error) {
+func (ic *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface) ([]modelapi.RoleResponse, error) {
 	log.Printf("[%s][GetRoles]", ctx.GetStub().GetChannelID())
 
 	rolesResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(RoleDocType, []string{})
@@ -88,7 +89,7 @@ func (ic *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface
 	}
 	defer rolesResultsIterator.Close()
 
-	var items []model.RoleResponse
+	var items []modelapi.RoleResponse
 	if rolesResultsIterator.HasNext() {
 		responseRange, err := rolesResultsIterator.Next()
 		if responseRange == nil {
@@ -100,7 +101,7 @@ func (ic *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface
 		if err != nil {
 			return nil, err
 		}
-		items = append(items, model.RoleResponse{
+		items = append(items, modelapi.RoleResponse{
 			DocType:           role.DocType,
 			ID:                role.ID,
 			Name:              role.Name,
@@ -111,7 +112,7 @@ func (ic *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface
 }
 
 // UpdateRole
-func (ic *ContractIdentity) UpdateRole(ctx contractapi.TransactionContextInterface, request model.RoleUpdateRequest) error {
+func (ic *ContractIdentity) UpdateRole(ctx contractapi.TransactionContextInterface, request modelapi.RoleUpdateRequest) error {
 	log.Printf("[%s][UpdateRole]", ctx.GetStub().GetChannelID())
 	key, err := ctx.GetStub().CreateCompositeKey(RoleDocType, []string{request.ID})
 	if err != nil {
@@ -147,7 +148,7 @@ func (ic *ContractIdentity) UpdateRole(ctx contractapi.TransactionContextInterfa
 }
 
 // DeleteRole
-func (ic *ContractIdentity) DeleteRole(ctx contractapi.TransactionContextInterface, request model.GetRequest) error {
+func (ic *ContractIdentity) DeleteRole(ctx contractapi.TransactionContextInterface, request modelapi.GetRequest) error {
 	log.Printf("[%s][DeleteRole]", ctx.GetStub().GetChannelID())
 	if err := lus.DeleteIndex(ctx.GetStub(), RoleDocType, []string{request.ID}, true); err != nil {
 		return err
