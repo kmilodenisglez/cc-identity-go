@@ -135,13 +135,6 @@ func Contains(arr []string, elem string) bool {
 	return false
 }
 
-func GetFirstElem(arr []string) string {
-	if len(arr) > 0 {
-		return arr[0]
-	}
-	return ""
-}
-
 type BeforeTransactionUnmarshalResponse struct {
 	Id       string `json:"id"` // user id or did
 	Function string `json:"function"`

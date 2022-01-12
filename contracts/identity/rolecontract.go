@@ -6,7 +6,7 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
-	modelapi "github.com/ic-matcom/model-identity-go/api"
+	modelapi "github.com/ic-matcom/model-identity-go/model"
 	"log"
 )
 

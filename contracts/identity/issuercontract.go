@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
-	model "github.com/ic-matcom/model-identity-go"
+	model "github.com/ic-matcom/model-identity-go/model"
+	modeltools "github.com/ic-matcom/model-identity-go/tools"
 	"log"
 )
 
@@ -66,12 +67,12 @@ func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInter
 		issuerRequest.Name = commonName
 	}
 
-	attrs := lus.GetAttrsCert(certX509)
+	attrs := modeltools.GetAttrsCert(certX509)
 	// get dates
 	dateCert := lus.GetDateCertificate(certX509)
 
 	// Create Issuer
-	issuer := &Issuer{
+	issuer := &model.Issuer{
 		DocType:     IssuerDocType,
 		ID:          issuerID,
 		Name:        issuerRequest.Name,
@@ -97,8 +98,8 @@ func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInter
 	return &model.IssuerQueryResponse{
 		ID:          issuer.ID,
 		Name:        issuer.Name,
-		CertPem:     issuer.CertPem,
-		Attrs:       model.Attrs(issuer.Attrs),
+		PublicKey:   issuerRequest.PublicKey, // TODO: obtener pubkey del certificado, si no existe el del request
+		Attrs:       issuer.Attrs,
 		AttrsExtras: issuer.AttrsExtras,
 		IssuedTime:  issuer.IssuedTime,
 		ExpiresTime: issuer.ExpiresTime,
@@ -145,13 +146,13 @@ func (ic *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterf
 	// we insert commonName if the Name field is empty
 	commonName := certX509.Subject.CommonName
 
-	attrs := lus.GetAttrsCert(certX509)
+	attrs := modeltools.GetAttrsCert(certX509)
 	// get dates
 	dateCert := lus.GetDateCertificate(certX509)
 
 	// Create Issuer
 	issuerToUpdate.Name = commonName
-	issuerToUpdate.CertPem = issuerRequest.CertPem
+	issuerToUpdate.PublicKey = issuerRequest.CertPem
 	issuerToUpdate.Attrs = model.Attrs(attrs)
 	issuerToUpdate.IssuedTime = dateCert["issuedTime"]
 	issuerToUpdate.ExpiresTime = dateCert["expiresTime"]
@@ -190,7 +191,7 @@ func (ic *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterfac
 	} else if issuer == nil {
 		return nil, fmt.Errorf("no state found for %s", key)
 	}
-	var issuerJD Issuer
+	var issuerJD model.Issuer
 	err = json.Unmarshal(issuer, &issuerJD)
 	if err != nil {
 		return nil, err
@@ -199,8 +200,8 @@ func (ic *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterfac
 	return &model.IssuerQueryResponse{
 		ID:          issuerJD.ID,
 		Name:        issuerJD.Name,
-		CertPem:     issuerJD.CertPem,
-		Attrs:       model.Attrs(issuerJD.Attrs),
+		PublicKey:   issuerJD.CertPem,
+		Attrs:       issuerJD.Attrs,
 		AttrsExtras: issuerJD.AttrsExtras,
 		IssuedTime:  issuerJD.IssuedTime,
 		ExpiresTime: issuerJD.ExpiresTime,
@@ -311,7 +312,7 @@ func (ic *ContractIdentity) GetIssuerHistory(ctx contractapi.TransactionContextI
 			}
 		}
 
-		timestamp := model.GetTimestampRFC3339(response.Timestamp)
+		timestamp := modeltools.GetTimestampRFC3339(response.Timestamp)
 
 		record := model.IssuerHistoryQueryResponse{
 			TxID:     response.TxId,

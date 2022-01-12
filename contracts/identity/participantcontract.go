@@ -8,7 +8,7 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
-	modelapi "github.com/ic-matcom/model-identity-go/api"
+	model "github.com/ic-matcom/model-identity-go/model"
 	modeltools "github.com/ic-matcom/model-identity-go/tools"
 	"log"
 )
@@ -50,7 +50,7 @@ func (ic *ContractIdentity) OnlyDevParticipant(ctx contractapi.TransactionContex
 		return "", fmt.Errorf("there is no role in the ledger")
 	}
 
-	identityRequest := modelapi.ParticipantCreateRequest{
+	identityRequest := model.ParticipantCreateRequest{
 		Did:     did,
 		CertPem: b64UserWithAttrsCert,
 		Roles:   []string{roles[0].ID},
@@ -64,7 +64,7 @@ func (ic *ContractIdentity) OnlyDevParticipant(ctx contractapi.TransactionContex
 }
 
 // TODO: missing validates ca cert - participant cer
-func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContextInterface, identityRequest modelapi.ParticipantCreateRequest) (*modelapi.ParticipantResponse, error) {
+func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantCreateRequest) (*model.ParticipantResponse, error) {
 	log.Printf("[%s][CreateParticipant]", ctx.GetStub().GetChannelID())
 
 	// check if client-node connected as admin
@@ -72,7 +72,7 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		return nil, fmt.Errorf(err.Error())
 	}
 
-	// Get the MSP ID of submitting client identity
+	// Get MSP ID of the client
 	clientMSPID, err := ctx.GetClientIdentity().GetMSPID()
 	if err != nil {
 		return nil, fmt.Errorf(lus.ErrorGetMSPID, err)
@@ -84,7 +84,7 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		return nil, err
 	}
 
-	exist, err := ic.ParticipantExits(ctx, modelapi.ParticipantGetRequest{Did: did})
+	exist, err := ic.ParticipantExits(ctx, model.ParticipantGetRequest{Did: did})
 	if err != nil {
 		return nil, err
 	}
@@ -147,7 +147,7 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		}
 	} else {
 		// get Issuer by ID
-		issuer, err := ic.GetIssuer(ctx, modelapi.GetRequest{ID: identityRequest.IssuerID})
+		issuer, err := ic.GetIssuer(ctx, model.GetRequest{ID: identityRequest.IssuerID})
 		if err != nil {
 			return nil, err
 		} else if issuer == nil {
@@ -170,13 +170,13 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 	dateCert := lus.GetDateCertificate(certX509)
 
 	// get attrs
-	attrs := lus.GetAttrsCert(certX509)
+	attrs := modeltools.GetAttrsCert(certX509)
 	// Create Participant
-	identity := Participant{
+	identity := model.Participant{
 		DocType:     ParticipantDocType,
 		ID:          lus.GenerateUUID(),
 		Did:         did,
-		CertPem:     identityRequest.CertPem,
+		PublicKey:   identityRequest.PublicKey,
 		IssuerID:    identityRequest.IssuerID,
 		Creator:     creatorID,
 		Roles:       identityRequest.Roles,
@@ -204,7 +204,7 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		return nil, fmt.Errorf("could not create identity %v: %v", identity.ID, err)
 	}
 
-	return &modelapi.ParticipantResponse{
+	return &model.ParticipantResponse{
 		Did:   identity.Did,
 		Roles: identity.Roles,
 	}, nil
@@ -212,7 +212,7 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 
 // DeleteParticipant
 // TODO: debug
-func (ic *ContractIdentity) DeleteParticipant(ctx contractapi.TransactionContextInterface, identityRequest modelapi.ParticipantDeleteRequest) error {
+func (ic *ContractIdentity) DeleteParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantDeleteRequest) error {
 	log.Printf("[%s][DeleteParticipant]", ctx.GetStub().GetChannelID())
 	// check if client-node connected as admin
 	if err := lus.AssertAdmin(ctx); err != nil {
@@ -280,8 +280,8 @@ func (ic *ContractIdentity) DeleteParticipant(ctx contractapi.TransactionContext
 		return err
 	}
 
-	payload := &modelapi.ParticipantDeletedPayload{
-		MspId:    clientMSPID,
+	payload := &model.ParticipantDeletedPayload{
+		MspID:    clientMSPID,
 		Time:     txTimestamp,
 		CallerID: callerID, // keep a record of the user who deleted the identity
 	}
@@ -294,7 +294,7 @@ func (ic *ContractIdentity) DeleteParticipant(ctx contractapi.TransactionContext
 	return err
 }
 
-func (ic *ContractIdentity) DisarmParticipant(ctx contractapi.TransactionContextInterface, identityRequest modelapi.ParticipantDeleteRequest) (bool, error) {
+func (ic *ContractIdentity) DisarmParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantDeleteRequest) (bool, error) {
 	log.Printf("[%s][DisarmParticipant]", ctx.GetStub().GetChannelID())
 	// check if client-node connected as admin
 	if err := lus.AssertAdmin(ctx); err != nil {
@@ -348,7 +348,7 @@ func (ic *ContractIdentity) RenewParticipant(ctx contractapi.TransactionContextI
 		return err
 	}
 
-	exist, err := ic.ParticipantExits(ctx, modelapi.ParticipantGetRequest{Did: did})
+	exist, err := ic.ParticipantExits(ctx, model.ParticipantGetRequest{Did: did})
 	if err != nil {
 		return err
 	}
@@ -366,7 +366,7 @@ func (ic *ContractIdentity) RenewParticipant(ctx contractapi.TransactionContextI
 	return nil
 }
 
-func (ic *ContractIdentity) GetParticipant(ctx contractapi.TransactionContextInterface, request modelapi.ParticipantGetRequest) (*modelapi.ParticipantResponse, error) {
+func (ic *ContractIdentity) GetParticipant(ctx contractapi.TransactionContextInterface, request model.ParticipantGetRequest) (*model.ParticipantResponse, error) {
 	log.Printf("[%s][GetParticipant]", ctx.GetStub().GetChannelID())
 	identity, err := ic.getParticipant(ctx, request.Did)
 	if err != nil {
@@ -374,7 +374,7 @@ func (ic *ContractIdentity) GetParticipant(ctx contractapi.TransactionContextInt
 	} else if identity == nil {
 		return nil, fmt.Errorf(lus.ErrorDefaultNotExist, request.Did)
 	}
-	return &modelapi.ParticipantResponse{
+	return &model.ParticipantResponse{
 		Did:     identity.Did,
 		Roles:   identity.Roles,
 		Creator: identity.Creator,
@@ -421,7 +421,7 @@ func (ic *ContractIdentity) getParticipant(ctx contractapi.TransactionContextInt
 // Returns:
 //		0: []model_api.ParticipantHistoryQueryResponse
 //		1: error
-func (ic *ContractIdentity) GetParticipantHistory(ctx contractapi.TransactionContextInterface, request modelapi.ParticipantGetRequest) ([]modelapi.ParticipantHistoryQueryResponse, error) {
+func (ic *ContractIdentity) GetParticipantHistory(ctx contractapi.TransactionContextInterface, request model.ParticipantGetRequest) ([]model.ParticipantHistoryQueryResponse, error) {
 	log.Printf("GetParticipantHistory: ID %v", request.Did)
 
 	identity, err := ic.getParticipant(ctx, request.Did)
@@ -442,14 +442,14 @@ func (ic *ContractIdentity) GetParticipantHistory(ctx contractapi.TransactionCon
 	}
 	defer resultsIterator.Close()
 
-	var records []modelapi.ParticipantHistoryQueryResponse
+	var records []model.ParticipantHistoryQueryResponse
 	for resultsIterator.HasNext() {
 		response, err := resultsIterator.Next()
 		if err != nil {
 			return nil, err
 		}
 
-		identity := modelapi.ParticipantQueryResponse{}
+		identity := model.ParticipantQueryResponse{}
 		identity.ParticipantID = request.Did
 		if len(response.Value) > 0 {
 			err = json.Unmarshal(response.Value, &identity)
@@ -460,7 +460,7 @@ func (ic *ContractIdentity) GetParticipantHistory(ctx contractapi.TransactionCon
 
 		timestamp := modeltools.GetTimestampRFC3339(response.Timestamp)
 
-		record := modelapi.ParticipantHistoryQueryResponse{
+		record := model.ParticipantHistoryQueryResponse{
 			TxID:     response.TxId,
 			Time:     timestamp,
 			Record:   &identity,
@@ -479,7 +479,7 @@ func (ic *ContractIdentity) GetParticipantHistory(ctx contractapi.TransactionCon
 // Returns:
 //		0: []model_api.ParticipantResponse
 //		1: error
-func (ic *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextInterface) ([]modelapi.ParticipantResponse, error) {
+func (ic *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextInterface) ([]model.ParticipantResponse, error) {
 	log.Printf("[%s][GetParticipants]", ctx.GetStub().GetChannelID())
 
 	identitiesResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(ParticipantDocType, []string{})
@@ -488,14 +488,14 @@ func (ic *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextIn
 	}
 	defer identitiesResultsIterator.Close()
 
-	var identities []modelapi.ParticipantResponse
+	var identities []model.ParticipantResponse
 	if identitiesResultsIterator.HasNext() {
 		responseRange, err := identitiesResultsIterator.Next()
 		if responseRange == nil {
 			return nil, err
 		}
 
-		var identity modelapi.ParticipantResponse
+		var identity model.ParticipantResponse
 		err = json.Unmarshal(responseRange.Value, &identity)
 		if err != nil {
 			return nil, err
@@ -506,7 +506,7 @@ func (ic *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextIn
 }
 
 // ParticipantExits returns true when identity with given key exists in the worldState.
-func (ic *ContractIdentity) ParticipantExits(ctx contractapi.TransactionContextInterface, request modelapi.ParticipantGetRequest) (bool, error) {
+func (ic *ContractIdentity) ParticipantExits(ctx contractapi.TransactionContextInterface, request model.ParticipantGetRequest) (bool, error) {
 	log.Printf("[%s][ParticipantExits]", ctx.GetStub().GetChannelID())
 	identityResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(ObjectTypeParticipantByDidUUID, []string{request.Did})
 	if err != nil {
@@ -534,7 +534,7 @@ func (ic *ContractIdentity) readParticipant(ctx contractapi.TransactionContextIn
 		return nil, fmt.Errorf(lus.ErrorDefaultNotExist, participantID)
 	}
 
-	var identity Participant
+	var identity model.Participant
 	err = json.Unmarshal(identityBytes, &identity)
 	if err != nil {
 		return nil, err

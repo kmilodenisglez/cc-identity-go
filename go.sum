@@ -91,6 +91,16 @@ github.com/ic-matcom/model-identity-go v0.0.0-20220110233458-4184d7c217c1 h1:uvZ
 github.com/ic-matcom/model-identity-go v0.0.0-20220110233458-4184d7c217c1/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
 github.com/ic-matcom/model-identity-go v0.0.0-20220110234735-b67bb770c1b5 h1:RrUxV4X77IZjAINtveuETHmnFWYsUvSrSXHqsvvd9Eo=
 github.com/ic-matcom/model-identity-go v0.0.0-20220110234735-b67bb770c1b5/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220111230633-152945ffccaa h1:DBC7lPaXMzXV3Dkeh45jnzHERyk5THHlZiwYFN1woBg=
+github.com/ic-matcom/model-identity-go v0.0.0-20220111230633-152945ffccaa/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220111234954-33d8fb5c224e h1:p77GQkTpMAMjED7LMrdeFfv8l8/XKPeDGHAUfZu25WQ=
+github.com/ic-matcom/model-identity-go v0.0.0-20220111234954-33d8fb5c224e/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220112001311-4450d787da64 h1:hXpZMA2aE7oHP8EdPxvtU0+J4d3wNa5+muYWAUmj/OM=
+github.com/ic-matcom/model-identity-go v0.0.0-20220112001311-4450d787da64/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220112005718-cdc9729263ed h1:IwrllzRXgw1Rml3b+hUCLqq8VqGZXaBPFOAZfdBY0rI=
+github.com/ic-matcom/model-identity-go v0.0.0-20220112005718-cdc9729263ed/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220112010356-7c90757d4764 h1:ryhUDnKkA15YrMHwgeIBuags5q0b4ZCiMSTnoDODyqk=
+github.com/ic-matcom/model-identity-go v0.0.0-20220112010356-7c90757d4764/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
 github.com/ic-matcom/model-traceability-go v0.0.0-20211018004148-cf3844d358cb h1:oAEIA/MegFO8lKIhOgv/RyaCIY+uNi7NhkSQM+hX5uA=
 github.com/ic-matcom/model-traceability-go v0.0.0-20211018004148-cf3844d358cb/go.mod h1:gd3GA9N3dEMspQXTKxp0fGdVB+rV7VwtlyWQg/dVO0g=
 github.com/ic-matcom/model-traceability-go v0.0.0-20211222135251-eaa5a320074a h1:BWI1xBxnn05voRiVh7LUAvg4hoohGlfldB0ANhtDqTo=
