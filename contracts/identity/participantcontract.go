@@ -20,13 +20,13 @@ func (ic *ContractIdentity) InitLedger(ctx contractapi.TransactionContextInterfa
 	if err := lus.AssertAdmin(ctx); err != nil {
 		return fmt.Errorf(err.Error())
 	}
-	accessFuelBatch := AccessCreateRequest{
-		ContractName:      ic.Name,              // contract name
-		ContractFunctions: ic.GetTransactions(), // functions name
+	accessIdentity := AccessCreateRequest{
+		ContractName:      ic.Name,                        // contract name
+		ContractFunctions: modeltools.GetTransactions(ic), // functions name
 	}
 
-	// create fuelBatch access
-	_, err := ic.CreateAccess(ctx, accessFuelBatch)
+	// create identity access
+	_, err := ic.CreateAccess(ctx, accessIdentity)
 	if err != nil {
 		return err
 	}
@@ -544,14 +544,4 @@ func (ic *ContractIdentity) readParticipant(ctx contractapi.TransactionContextIn
 	jcp := privateIdentityResponse{identityAlias: (*identityAlias)(&identity)}
 
 	return &jcp, nil
-}
-
-// GetTransactions returns callables functions of Contract
-// use to populate ContractFunctions field in identity:Access
-func (ic *ContractIdentity) GetTransactions() []string {
-	return []string{"CreateParticipant", "DeleteParticipant",
-		"GetParticipant", "DisarmParticipant", "GetParticipants",
-		"GetParticipantHistory", "CreateRole", "GetRole",
-		"DeleteRole", "GetRoles", "UpdateRole", "UpdateAccess",
-		"GetAccess", "GetAccesses", "CreateAccess"}
 }

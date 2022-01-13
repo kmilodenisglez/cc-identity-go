@@ -101,6 +101,8 @@ github.com/ic-matcom/model-identity-go v0.0.0-20220112005718-cdc9729263ed h1:Iwr
 github.com/ic-matcom/model-identity-go v0.0.0-20220112005718-cdc9729263ed/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
 github.com/ic-matcom/model-identity-go v0.0.0-20220112010356-7c90757d4764 h1:ryhUDnKkA15YrMHwgeIBuags5q0b4ZCiMSTnoDODyqk=
 github.com/ic-matcom/model-identity-go v0.0.0-20220112010356-7c90757d4764/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220113195822-2f690877e875 h1:Zv/wwu+zNAbjewS/QRYVrFOncq5t+1zVosFXXcCU7/Q=
+github.com/ic-matcom/model-identity-go v0.0.0-20220113195822-2f690877e875/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
 github.com/ic-matcom/model-traceability-go v0.0.0-20211018004148-cf3844d358cb h1:oAEIA/MegFO8lKIhOgv/RyaCIY+uNi7NhkSQM+hX5uA=
 github.com/ic-matcom/model-traceability-go v0.0.0-20211018004148-cf3844d358cb/go.mod h1:gd3GA9N3dEMspQXTKxp0fGdVB+rV7VwtlyWQg/dVO0g=
 github.com/ic-matcom/model-traceability-go v0.0.0-20211222135251-eaa5a320074a h1:BWI1xBxnn05voRiVh7LUAvg4hoohGlfldB0ANhtDqTo=

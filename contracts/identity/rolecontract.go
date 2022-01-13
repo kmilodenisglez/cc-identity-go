@@ -25,7 +25,7 @@ func (ic *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterfa
 	// using map, because it is very fast
 	lus.SliceToMap(request.ContractFunctions, cFunctions)
 	// Create Role
-	role := &Role{
+	role := &modelapi.Role{
 		DocType:           RoleDocType,
 		ID:                id,
 		Name:              request.Name,
@@ -65,7 +65,7 @@ func (ic *ContractIdentity) GetRole(ctx contractapi.TransactionContextInterface,
 		return nil, fmt.Errorf("no state found for %s", key)
 	}
 
-	var itemJD Role
+	var itemJD modelapi.Role
 	err = json.Unmarshal(item, &itemJD)
 	if err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func (ic *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface
 			return nil, err
 		}
 
-		var role Role
+		var role modelapi.Role
 		err = json.Unmarshal(responseRange.Value, &role)
 		if err != nil {
 			return nil, err
@@ -126,7 +126,7 @@ func (ic *ContractIdentity) UpdateRole(ctx contractapi.TransactionContextInterfa
 		return fmt.Errorf("no state found for %s", key)
 	}
 
-	var roleJD Role
+	var roleJD modelapi.Role
 	err = json.Unmarshal(role, &roleJD)
 	if err != nil {
 		return err

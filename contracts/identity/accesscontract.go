@@ -3,6 +3,7 @@ package identity
 import (
 	"encoding/json"
 	"fmt"
+	modeltools "github.com/ic-matcom/model-identity-go/tools"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
@@ -21,7 +22,7 @@ func (ic *ContractIdentity) OnlyDevAccess(ctx contractapi.TransactionContextInte
 
 	roleCupetQualityGroup := model.RoleCreateRequest{
 		Name:              "Gestor de identidad",
-		ContractFunctions: ic.GetTransactions(),
+		ContractFunctions: modeltools.GetTransactions(ic),
 	}
 	// create "Grupo de Calidad de Cupet" role
 	role, err := ic.CreateRole(ctx, roleCupetQualityGroup)
