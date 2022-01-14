@@ -1,11 +1,7 @@
 package identity
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
-	"encoding/json"
 	"fmt"
-
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
 	model "github.com/ic-matcom/model-identity-go/model"
@@ -34,36 +30,7 @@ func (ic *ContractIdentity) InitLedger(ctx contractapi.TransactionContextInterfa
 	return nil
 }
 
-// OnlyDevParticipant [temporary] function to populate with test data
-func (ic *ContractIdentity) OnlyDevParticipant(ctx contractapi.TransactionContextInterface) (string, error) {
-	log.Printf("[%s][OnlyDevParticipant]", ctx.GetStub().GetChannelID())
-	const b64UserWithAttrsCert = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tDQpNSUlHRWpDQ0EvcWdBd0lCQWdJVWRyd2M0NFhvK2ZLQ1JzTXlIdHd6ZDBnQ01iVXdEUVlKS29aSWh2Y05BUUVODQpCUUF3Z2FVeEN6QUpCZ05WQkFZVEFrTlZNUkl3RUFZRFZRUUlEQWxNWVNCSVlXSmhibUV4RmpBVUJnTlZCQWNNDQpEVU5sYm5SeWJ5QklZV0poYm1FeEp6QWxCZ05WQkFvTUhrMXBibWx6ZEdWeWFXOGdaR1VnUlc1bGNtZkRyV0VnDQplU0JOYVc1aGN6RU9NQXdHQTFVRUN3d0ZRM1Z3WlhReE1UQXZCZ05WQkFNTUtFRjFkRzl5YVdSaFpDQmtaU0JEDQpaWEowYVdacFkyRmphY096YmlCVVpXTnViMjNEb1hScFkyRXdIaGNOTWpFd056TXdNVGN6TlRJM1doY05Nak13DQpOek13TVRjek5USTJXakNCcWpFYk1Ca0dDZ21TSm9tVDhpeGtBUUVNQ3pnM01EVXhNakV4TkRVM01SNHdIQVlEDQpWUVFEREJWWmFYTmxiQ0JCYzNScFlYcGhjbUZwYmlCRWFXNHhIVEFiQmdOVkJBd01GRVZ6Y0M0Z1FpQkRhV1Z1DQpZMmxoY3lCSmJtWXVNUlF3RWdZRFZRUUxEQXREZFhCbGRDMU5hVzVsYlRFVk1CTUdBMVVFQ2d3TVZHVmpibTl0DQp3NkYwYVdOaE1SSXdFQVlEVlFRSURBbE1ZU0JJWVdKaGJtRXhDekFKQmdOVkJBWVRBa05WTUZrd0V3WUhLb1pJDQp6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVDNVNwZTlRem12WldVcnBLMHo0bDJVYjVwcVczZEs4OXlzV1k3d0xHDQpUMldybjFwSHFLckpHM0NXdFl6QVllaW9aRlA1bENJTjdHUE5ycXNlWUY1S2thT0NBZnd3Z2dINE1Bd0dBMVVkDQpFd0VCL3dRQ01BQXdId1lEVlIwakJCZ3dGb0FVU1JRcjNXaTNjSjNWdmhXS2tCSVk0VWNSSkprd1ZRWUlLd1lCDQpCUVVIQVFFRVNUQkhNQ01HQ0NzR0FRVUZCekFDaGhkb2RIUndjem92TDNCcmFTNWpkWEJsZEM1amRTOWpZVEFnDQpCZ2dyQmdFRkJRY3dBWVlVYUhSMGNEb3ZMMjlqYzNBdVkzVndaWFF1WTNVd0tRWURWUjB1QkNJd0lEQWVvQnlnDQpHb1lZYUhSMGNEb3ZMMlJsYkhSaFkzSnNMbU4xY0dWMExtTjFNRDRHQTFVZEpRUTNNRFVHQ0NzR0FRVUZCd01DDQpCZ2dyQmdFRkJRY0RBd1lJS3dZQkJRVUhBd1FHQ2lzR0FRUUJnamNLQXd3R0NTcUdTSWIzTHdFQkJUQ0IxUVlEDQpWUjBmQklITk1JSEtNSUhIb0JlZ0ZZWVRhSFIwY0RvdkwyTnliQzVqZFhCbGRDNWpkYUtCcTZTQnFEQ0JwVEV4DQpNQzhHQTFVRUF3d29RWFYwYjNKcFpHRmtJR1JsSUVObGNuUnBabWxqWVdOcHc3TnVJRlJsWTI1dmJjT2hkR2xqDQpZVEVPTUF3R0ExVUVDd3dGUTNWd1pYUXhKekFsQmdOVkJBb01IazFwYm1semRHVnlhVzhnWkdVZ1JXNWxjbWZEDQpyV0VnZVNCTmFXNWhjekVXTUJRR0ExVUVCd3dOUTJWdWRISnZJRWhoWW1GdVlURVNNQkFHQTFVRUNBd0pUR0VnDQpTR0ZpWVc1aE1Rc3dDUVlEVlFRR0V3SkRWVEFkQmdOVkhRNEVGZ1FVbkZXUFFRVkpDSGt3STNCUDVMSFVHMy9sDQozVjB3RGdZRFZSMFBBUUgvQkFRREFnWGdNQTBHQ1NxR1NJYjNEUUVCRFFVQUE0SUNBUUE5TTBGZlVMZVcySEkrDQpNNFZDNEZRczZybDZ0dmJ6NHFRalZ3MWZDbnNNVVNxZDBUejB0eTdWdGxCcGJteXFhNnRqSitFYmxncUVGOTBTDQpseHlnN1NyY1RkMGxWVFlIaExURUhhWFAzWENCVkhRUDVhVUIxQmZYR0pkNGJwaEZDUk5pQ1ExajhXa0xUTy8vDQo3bWNJSW9vSVh5Zk93K1N5d085VzFhZUt2amV5OEVrVTQ5bUtIakZXbC92Ritic0NPQUNwK1dCeGZQNFgrbm9yDQowdGVVR0MrZGZiYkY3OTM5c2tTdEU2SEwvTzRRT3RqeWZXWFZVLzhDNWRjMlpHMTJiSzZXOE9Hc294bTJyMFkrDQpSVkhOdWNPemhTTHJEL3B6ZDBLS1BVSE5ma1NmM3dBenlJYzM4amVreWx3ZFlHdnk5VWV0dER2NFJ2cFYrSE9BDQo2M1FUVDlFbmlvQkNQVHZTbTVMb2Q2eVpsd0xLbzBNakdJZXNmNG9tU3RsSWxIcUE0ZUppL2V5dzdxZmdZdTk4DQptY2t6dVNhVWlQVE1YaUgwWC84dDFlVEkzRHpjVEo0Uytmc251WEd0OGs5WEFWa2w4elNzM2xROERNVG1UVll3DQpTSG1ERm5hQ0psbDRlazJUNlpOWVB6dmFnOWdBVGxBQUMzSEw4ZGlycXdLN2FJeURveENPSHU3a0JJQU0xK202DQpDb0ZPcnVmalZvVVRtTzlUWUlocUlXZWJOMWY5Z3hXSkVBbnF6Zm4wUkVSa3NTMU0zV0JnaGZWY0xoeDY3WEd3DQpzTXltdHZLQ1hWRkpYSmNJaW5kRTUyYVAyQzVnQ1NVU1VyVVJOcTYvRjNqUVB1UE1ySW1ydHo1ZWoyV0tKVmhBDQpuS0hseFN2UkdYTXNuSDVoVmpibWZBU3B0cU9CQ3c9PQ0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQ0K"
-
-	// insert identityGetAccess
-	hashPublicKey := sha256.Sum256([]byte("valid did"))
-	did, _ := modeltools.CreateDid(hex.EncodeToString(hashPublicKey[:]))
-
-	roles, err := ic.GetRoles(ctx)
-	if err != nil {
-		return "", fmt.Errorf(err.Error())
-	} else if len(roles) < 1 {
-		return "", fmt.Errorf("there is no role in the ledger")
-	}
-
-	identityRequest := model.ParticipantCreateRequest{
-		Did:     did,
-		CertPem: b64UserWithAttrsCert,
-		Roles:   []string{roles[0].ID},
-	}
-	identity, err := ic.CreateParticipant(ctx, identityRequest)
-	if err != nil {
-		return "", fmt.Errorf(err.Error())
-	}
-
-	return identity.Did, nil
-}
-
-// TODO: missing validates ca cert - participant cer
+// TODO: missing validates ca cert - participant cert
 func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantCreateRequest) (*model.ParticipantResponse, error) {
 	log.Printf("[%s][CreateParticipant]", ctx.GetStub().GetChannelID())
 

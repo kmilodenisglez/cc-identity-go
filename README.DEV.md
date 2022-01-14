@@ -120,3 +120,8 @@ peer chaincode invoke  -c '{"function":"org.tecnomatica.fuelbatch:Instantiate","
 
 
 
+"{\"selector\":{\"docType\":\"did.participant\", \"id\":\"e9fe0283-6ade-4712-aecc-acbda6363251\"}}"
+
+peer chaincode invoke  -c '{"function":"org.identity:QueryAssetsByOwner","Args":["{\"selector\":{\"docType\":\"did.participant\", \"id\":\"e9fe0283-6ade-4712-aecc-acbda6363251\"}}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
+
+peer chaincode invoke  -c  '{"function":"org.identity:QueryAssetsBy","Args":["{\"selector\":{\"docType\":\"did.participant\",\"id\":\"e9fe0283-6ade-4712-aecc-acbda6363251\"},\"use_index\":[\"indexParticipantDoc\",\"indexParticipant\"]}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE

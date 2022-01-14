@@ -1,38 +1,13 @@
 package identity
 
 import (
-	"encoding/json"
 	"fmt"
-	modeltools "github.com/ic-matcom/model-identity-go/tools"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
 	model "github.com/ic-matcom/model-identity-go/model"
 	"log"
 )
-
-// OnlyDevAccess TODO: only for test
-func (ic *ContractIdentity) OnlyDevAccess(ctx contractapi.TransactionContextInterface) error {
-	log.Printf("[%s][OnlyDevAccess]", ctx.GetStub().GetChannelID())
-
-	// check if client-node is connected as admin
-	if err := lus.AssertAdmin(ctx); err != nil {
-		return fmt.Errorf(err.Error())
-	}
-
-	roleCupetQualityGroup := model.RoleCreateRequest{
-		Name:              "Gestor de identidad",
-		ContractFunctions: modeltools.GetTransactions(ic),
-	}
-	// create "Grupo de Calidad de Cupet" role
-	role, err := ic.CreateRole(ctx, roleCupetQualityGroup)
-	if err != nil {
-		return err
-	}
-	log.Printf("role added: %v", role)
-
-	return nil
-}
 
 // CreateAccess
 //

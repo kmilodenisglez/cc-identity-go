@@ -1,0 +1,14 @@
+{
+  "index": {
+    "fields": [
+      "docType",
+      "id",
+      "did",
+      "publicKey",
+      "active"
+    ]
+  },
+  "ddoc": "indexParticipantDoc",
+  "name": "indexParticipant",
+  "type": "json"
+}
