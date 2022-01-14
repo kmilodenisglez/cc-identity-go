@@ -16,7 +16,7 @@ import (
 // Returns:
 //		0: AccessResponse
 //		1: error
-func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInterface, request AccessCreateRequest) (*model.AccessResponse, error) {
+func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInterface, request model.AccessCreateRequest) (*model.AccessResponse, error) {
 	log.Printf("[%s][CreateAccess]", ctx.GetStub().GetChannelID())
 	lowerNonSpace := lus.NormalizeString(request.ContractName)
 
@@ -121,7 +121,7 @@ func (ic *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterf
 }
 
 // updateAccess
-func (ic *ContractIdentity) updateAccess(ctx contractapi.TransactionContextInterface, request AccessUpdateRequest) error {
+func (ic *ContractIdentity) updateAccess(ctx contractapi.TransactionContextInterface, request model.AccessUpdateRequest) error {
 	log.Printf("[%s][updateAccess]", ctx.GetStub().GetChannelID())
 	key, err := ctx.GetStub().CreateCompositeKey(AccessDocType, []string{request.ID})
 	if err != nil {
@@ -164,21 +164,4 @@ func (ic *ContractIdentity) deleteAccess(ctx contractapi.TransactionContextInter
 	}
 
 	return nil
-}
-
-// GetIgnoredFunctions returns functions are still callable by the code just not directly by outside users
-func (ic *ContractIdentity) GetIgnoredFunctions() []string {
-	return []string{"CreateAccess"}
-}
-
-// AccessCreateRequest
-type AccessCreateRequest struct {
-	ContractName      string   `json:"contractName"`
-	ContractFunctions []string `json:"contractFunctions,omitempty"` // contract functions
-}
-
-// AccessUpdateRequest
-type AccessUpdateRequest struct {
-	ID                string   `json:"id"`
-	ContractFunctions []string `json:"contractFunctions"` // contract functions name
 }

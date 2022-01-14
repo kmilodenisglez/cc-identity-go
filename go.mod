@@ -8,7 +8,7 @@ require (
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20210718160520-38d29fabecb9
 	github.com/hyperledger/fabric-contract-api-go v1.1.1
 	github.com/hyperledger/fabric-protos-go v0.0.0-20210422135545-37e930696e2a
-	github.com/ic-matcom/model-identity-go v0.0.0-20220113195822-2f690877e875
+	github.com/ic-matcom/model-identity-go v0.0.0-20220114011359-95bff8864ec0
 	github.com/json-iterator/go v1.1.12
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.4.1
 	github.com/onsi/ginkgo v1.16.5

@@ -16,7 +16,7 @@ func (ic *ContractIdentity) InitLedger(ctx contractapi.TransactionContextInterfa
 	if err := lus.AssertAdmin(ctx); err != nil {
 		return fmt.Errorf(err.Error())
 	}
-	accessIdentity := AccessCreateRequest{
+	accessIdentity := model.AccessCreateRequest{
 		ContractName:      ic.Name,                        // contract name
 		ContractFunctions: modeltools.GetTransactions(ic), // functions name
 	}
