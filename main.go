@@ -34,7 +34,7 @@ func main() {
 		log.Panicf("Error starting chaincode %v", err)
 	}
 
-	//privateCertByte, err := testcerts.Certificates[2].PrivateBytes()
+	//_, err = testcerts.Certificates[2].PrivateBytes()
 	//certByte, err := testcerts.Certificates[2].CertBytes()
 	//if err != nil {
 	//	fmt.Printf("1-->> %v", err)
@@ -47,11 +47,19 @@ func main() {
 	//	fmt.Errorf("wanted an ECDSA public key but found: %#v", parsedKey)
 	//}
 	//
-	//parsedPKBytes, _ := x509.MarshalPKIXPublicKey(parsedKey)
 	//
-	////fmt.Printf("%v", string(parsedPKBytes))
+	//parsedPKBytes, err := x509.MarshalPKIXPublicKey(parsedKey)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	////key, err := x509.ParsePKIXPublicKey(parsedPKBytes)
+	////if err != nil {
+	////	panic(err)
+	////}
 	//
 	//
+	//fmt.Printf("%v : %v", string(parsedPKBytes), base64.StdEncoding.EncodeToString(parsedPKBytes))
 	//lop := modelapi.RoleCreateRequest{
 	//	Name:              "name 1",
 	//	ContractFunctions: nil,
