@@ -31,7 +31,7 @@ func (ic *ContractIdentity) InitLedger(ctx contractapi.TransactionContextInterfa
 }
 
 // TODO: missing validates ca cert - participant cert
-func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContextInterface, identityRequest model.ParticipantCreateRequest) (*model.ParticipantResponse, error) {
+func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContextInterface, request model.ParticipantCreateRequest) (*model.ParticipantResponse, error) {
 	log.Printf("[%s][CreateParticipant]", ctx.GetStub().GetChannelID())
 
 	// check if client-node connected as admin
@@ -45,9 +45,8 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		return nil, fmt.Errorf(lus.ErrorGetMSPID, err)
 	}
 
-	did := identityRequest.Did
-	// check the did format
-	if err := modeltools.CheckDid(did); err != nil {
+	did, err := modeltools.CreateDid(request.PublicKey)
+	if err != nil {
 		return nil, err
 	}
 
@@ -59,28 +58,39 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		return nil, fmt.Errorf(lus.ErrorIdentityExists, did)
 	}
 
-	exist, err = lus.CertificateAlreadyExists(ctx, identityRequest.CertPem, ParticipantDocType, []string{})
+	exist, err = lus.CertificateAlreadyExists(ctx, request.CertPem, ParticipantDocType, []string{})
 	if err != nil {
 		return nil, err
 	} else if exist {
 		return nil, fmt.Errorf("an identity with the same certificate already exists")
 	}
 
-	// validate cert
-	certX509, err := lus.GetX509CertFromPem(identityRequest.CertPem)
-	if err != nil {
-		return nil, err
-	}
-	err = lus.HasExpired(certX509)
-	if err != nil {
-		return nil, err
+	var issuedTime, expiresTime, attrs = "", "", model.Attrs{}
+
+	if request.CertPem != "" {
+		// validate cert
+		certX509, err := lus.GetX509CertFromPem(request.CertPem)
+		if err != nil {
+			return nil, err
+		}
+		err = lus.HasExpired(certX509)
+		if err != nil {
+			return nil, err
+		}
+		// get dates
+		dateCert := lus.GetDateCertificate(certX509)
+		issuedTime = dateCert["issuedTime"]
+		expiresTime = dateCert["expiresTime"]
+
+		// get attrs
+		attrs = modeltools.GetAttrsCert(certX509)
 	}
 
 	// creator := &privateIdentityResponse{}
 	creatorID := ""
-	if identityRequest.CreatorDid != "" {
+	if request.CreatorDid != "" {
 		// get issuer Id from DID
-		creator, err := ic.getParticipant(ctx, identityRequest.CreatorDid)
+		creator, err := ic.getParticipant(ctx, request.CreatorDid)
 		if creator == nil || err != nil {
 			return nil, fmt.Errorf("failed to get Creator identity: %v", err)
 		}
@@ -90,7 +100,7 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		creatorID = ""
 	}
 	// get default issuer
-	if identityRequest.IssuerID == "" {
+	if request.IssuerID == "" {
 		issuerResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(ObjectTypeIssuerByDefault, []string{})
 		if err != nil {
 			return nil, err
@@ -107,14 +117,14 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 				return nil, err
 			}
 			if len(compositeKeyParts) > 0 {
-				identityRequest.IssuerID = compositeKeyParts[0]
+				request.IssuerID = compositeKeyParts[0]
 			}
 		} else {
 			return nil, fmt.Errorf("there is no default issuer, pass the issuer id as parameter")
 		}
 	} else {
 		// get Issuer by ID
-		issuer, err := ic.GetIssuer(ctx, model.GetRequest{ID: identityRequest.IssuerID})
+		issuer, err := ic.GetIssuer(ctx, model.GetRequest{ID: request.IssuerID})
 		if err != nil {
 			return nil, err
 		} else if issuer == nil {
@@ -128,30 +138,25 @@ func (ic *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		return nil, err
 	}
 
-	if identityRequest.Roles == nil {
+	if request.Roles == nil {
 		// Use make to create an empty slice of string.
-		identityRequest.Roles = make([]string, 0)
+		request.Roles = make([]string, 0)
 	}
 
-	// get dates
-	dateCert := lus.GetDateCertificate(certX509)
-
-	// get attrs
-	attrs := modeltools.GetAttrsCert(certX509)
 	// Create Participant
 	identity := model.Participant{
 		DocType:     ParticipantDocType,
 		ID:          lus.GenerateUUID(),
 		Did:         did,
-		PublicKey:   identityRequest.PublicKey,
-		IssuerID:    identityRequest.IssuerID,
+		PublicKey:   request.PublicKey,
+		IssuerID:    request.IssuerID,
 		Creator:     creatorID,
-		Roles:       identityRequest.Roles,
+		Roles:       request.Roles,
 		Attrs:       attrs,
 		AttrsExtras: make(map[string]string),
 		Time:        txTimestamp,
-		IssuedTime:  dateCert["issuedTime"],
-		ExpiresTime: dateCert["expiresTime"],
+		IssuedTime:  issuedTime,
+		ExpiresTime: expiresTime,
 		Active:      true,
 		MspID:       clientMSPID,
 	}
@@ -311,7 +316,7 @@ func (ic *ContractIdentity) RenewParticipant(ctx contractapi.TransactionContextI
 
 	did := request.Did
 	// check the did format
-	if err := modeltools.CheckDid(did); err != nil {
+	if err := modeltools.MatchDidFormat(did); err != nil {
 		return err
 	}
 
