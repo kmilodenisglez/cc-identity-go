@@ -41,26 +41,5 @@ func (ci *ContractIdentity) QueryAssetsBy(ctx contractapi.TransactionContextInte
 // Paginated queries are only valid for read only transactions.
 // Example: Pagination with Ad hoc Rich Query
 func (ci *ContractIdentity) QueryAssetsWithPagination(ctx contractapi.TransactionContextInterface, queryString string, pageSize int, bookmark string) (*model.PaginatedQueryResponse, error) {
-	return getQueryResultForQueryStringWithPagination(ctx, queryString, int32(pageSize), bookmark)
-}
-
-// getQueryResultForQueryStringWithPagination executes the passed in query string with
-// pagination info. The result set is built and returned as a byte array containing the JSON results.
-func getQueryResultForQueryStringWithPagination(ctx contractapi.TransactionContextInterface, queryString string, pageSize int32, bookmark string) (*model.PaginatedQueryResponse, error) {
-	resultsIterator, responseMetadata, err := ctx.GetStub().GetQueryResultWithPagination(queryString, pageSize, bookmark)
-	if err != nil {
-		return nil, err
-	}
-	defer resultsIterator.Close()
-
-	assets, err := libUtils.ConstructQueryResponseFromIterator(resultsIterator)
-	if err != nil {
-		return nil, err
-	}
-
-	return &model.PaginatedQueryResponse{
-		Records:             assets,
-		FetchedRecordsCount: responseMetadata.FetchedRecordsCount,
-		Bookmark:            responseMetadata.Bookmark,
-	}, nil
+	return libUtils.GetQueryResultForQueryStringWithPagination(ctx, queryString, int32(pageSize), bookmark)
 }
