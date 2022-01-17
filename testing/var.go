@@ -22,4 +22,5 @@ var (
 	MspID                     = "matcomMSP"
 	ID1                       = "44b7b1c9-10bb-4a70-b290-aa403968247e"
 	Did1                      = "did:fa3bdf5b4bcfac88ce9093ec3f0d58290f11c7ef6d2a683a7ee56746b333ec71"
+	PublicKey                 = "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEC5Spe9QzmvZWUrpK0z4l2Ub5pqW3\ndK89ysWY7wLGT2Wrn1pHqKrJG3CWtYzAYeioZFP5lCIN7GPNrqseYF5KkQ=="
 )

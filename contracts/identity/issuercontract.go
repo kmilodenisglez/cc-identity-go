@@ -1,6 +1,9 @@
 package identity
 
 import (
+	"crypto/ecdsa"
+	"crypto/x509"
+	"encoding/base64"
 	"fmt"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
@@ -16,7 +19,7 @@ import (
 // Returns:
 //		0: Issuer
 //		1: error
-func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInterface, issuerRequest model.IssuerCreateRequest) (*model.IssuerQueryResponse, error) {
+func (ci *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInterface, issuerRequest model.IssuerCreateRequest) (*model.IssuerQueryResponse, error) {
 	log.Printf("[%s][CreateIssuer]", ctx.GetStub().GetChannelID())
 
 	// check if client-node connected as admin
@@ -31,11 +34,11 @@ func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInter
 		return nil, fmt.Errorf("an issuer with the same certificate already exists")
 	}
 
-	issuerID := lus.GenerateUUID()
+	issuerID := lus.GenerateUUIDStr()
 
 	// If the new issuer is to be the default, we must check if there is
 	// another issuer registered and marked "by default"
-	if err := ic.issuerMarkAsDefault(ctx, issuerID, &issuerRequest); err != nil {
+	if err := ci.issuerMarkAsDefault(ctx, issuerID, &issuerRequest); err != nil {
 		return nil, err
 	}
 
@@ -53,6 +56,17 @@ func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInter
 	attrs := modeltools.GetAttrsCert(certX509)
 	// get dates
 	dateCert := lus.GetDateCertificate(certX509)
+	// begin: get publicKey
+	parsedKey, ok := certX509.PublicKey.(*ecdsa.PublicKey)
+	if !ok {
+		return nil, fmt.Errorf("wanted an ECDSA public key but found: %#v", parsedKey)
+	}
+	parsedPKBytes, err := x509.MarshalPKIXPublicKey(parsedKey)
+	if err != nil {
+		panic(err)
+	}
+	publicKey := base64.StdEncoding.EncodeToString(parsedPKBytes)
+	// end: publicKey
 
 	// Create Issuer
 	issuer := &model.Issuer{
@@ -81,7 +95,7 @@ func (ic *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInter
 	return &model.IssuerQueryResponse{
 		ID:          issuer.ID,
 		Name:        issuer.Name,
-		PublicKey:   issuerRequest.PublicKey, // TODO: obtener pubkey del certificado, si no existe el del request
+		PublicKey:   publicKey,
 		Attrs:       issuer.Attrs,
 		AttrsExtras: issuer.AttrsExtras,
 		IssuedTime:  issuer.IssuedTime,
@@ -104,7 +118,7 @@ type IssuerUpdateRequest struct {
 // Returns:
 //		0: Issuer
 //		1: error
-func (ic *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterface, issuerRequest IssuerUpdateRequest) (*model.IssuerQueryResponse, error) {
+func (ci *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterface, issuerRequest IssuerUpdateRequest) (*model.IssuerQueryResponse, error) {
 	log.Printf("[%s][UpdateIssuer]", ctx.GetStub().GetChannelID())
 
 	// check if client-node connected as admin
@@ -113,7 +127,7 @@ func (ic *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterf
 	}
 
 	// get issuer
-	issuerToUpdate, err := ic.GetIssuer(ctx, model.GetRequest{ID: issuerRequest.ID})
+	issuerToUpdate, err := ci.GetIssuer(ctx, model.GetRequest{ID: issuerRequest.ID})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get User identity: %v", err)
 	}
@@ -160,7 +174,7 @@ func (ic *ContractIdentity) RenewIssuer(ctx contractapi.TransactionContextInterf
 // Returns:
 //		0: Issuer
 //		1: error
-func (ic *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*model.IssuerQueryResponse, error) {
+func (ci *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*model.IssuerQueryResponse, error) {
 	log.Printf("[%s][GetIssuer]", ctx.GetStub().GetChannelID())
 	key, err := ctx.GetStub().CreateCompositeKey(IssuerDocType, []string{request.ID})
 	if err != nil {
@@ -200,7 +214,7 @@ func (ic *ContractIdentity) GetIssuer(ctx contractapi.TransactionContextInterfac
 // Returns:
 //		0: Issuer
 //		1: error
-func (ic *ContractIdentity) DeleteIssuer(ctx contractapi.TransactionContextInterface, issuerRequest model.GetRequest) error {
+func (ci *ContractIdentity) DeleteIssuer(ctx contractapi.TransactionContextInterface, issuerRequest model.GetRequest) error {
 	log.Printf("[%s][DeleteIssuer]", ctx.GetStub().GetChannelID())
 	key, err := ctx.GetStub().CreateCompositeKey(IssuerDocType, []string{issuerRequest.ID})
 	if err != nil {
@@ -229,7 +243,7 @@ func (ic *ContractIdentity) DeleteIssuer(ctx contractapi.TransactionContextInter
 // Returns:
 //		0: []Issuer
 //		1: error
-func (ic *ContractIdentity) GetIssuers(ctx contractapi.TransactionContextInterface) ([]model.IssuerQueryResponse, error) {
+func (ci *ContractIdentity) GetIssuers(ctx contractapi.TransactionContextInterface) ([]model.IssuerQueryResponse, error) {
 	log.Printf("[%s][GetIssuers]", ctx.GetStub().GetChannelID())
 
 	resultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(IssuerDocType, []string{})
@@ -264,7 +278,7 @@ func (ic *ContractIdentity) GetIssuers(ctx contractapi.TransactionContextInterfa
 // Returns:
 //		0: []model.IssuerHistoryQueryResponse
 //		1: error
-func (ic *ContractIdentity) GetIssuerHistory(ctx contractapi.TransactionContextInterface, issuerRequest model.GetRequest) ([]model.IssuerHistoryQueryResponse, error) {
+func (ci *ContractIdentity) GetIssuerHistory(ctx contractapi.TransactionContextInterface, issuerRequest model.GetRequest) ([]model.IssuerHistoryQueryResponse, error) {
 	log.Printf("GetIssuerHistory: ID %v", issuerRequest.ID)
 
 	compositeKeyID, err := ctx.GetStub().CreateCompositeKey(IssuerDocType, []string{issuerRequest.ID})
@@ -311,7 +325,7 @@ func (ic *ContractIdentity) GetIssuerHistory(ctx contractapi.TransactionContextI
 
 // issuerMarkAsDefault modifies issuer  "byDefault" status to true only if request ByDefault field
 // is true or if there are no issuers
-func (ic *ContractIdentity) issuerMarkAsDefault(ctx contractapi.TransactionContextInterface, issuerID string, issuerRequest *model.IssuerCreateRequest) error {
+func (ci *ContractIdentity) issuerMarkAsDefault(ctx contractapi.TransactionContextInterface, issuerID string, issuerRequest *model.IssuerCreateRequest) error {
 	log.Printf("[inside][issuerMarkAsDefault]")
 
 	issuerResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(ObjectTypeIssuerByDefault, []string{})
@@ -334,7 +348,7 @@ func (ic *ContractIdentity) issuerMarkAsDefault(ctx contractapi.TransactionConte
 
 		if len(compositeKeyParts) == 1 {
 			returnedIssuerID := compositeKeyParts[0]
-			response, err := ic.GetIssuer(ctx, model.GetRequest{ID: returnedIssuerID})
+			response, err := ci.GetIssuer(ctx, model.GetRequest{ID: returnedIssuerID})
 			if err != nil {
 				return err
 			}

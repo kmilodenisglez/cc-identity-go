@@ -16,7 +16,7 @@ import (
 // Returns:
 //		0: AccessResponse
 //		1: error
-func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInterface, request model.AccessCreateRequest) (*model.AccessResponse, error) {
+func (ci *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInterface, request model.AccessCreateRequest) (*model.AccessResponse, error) {
 	log.Printf("[%s][CreateAccess]", ctx.GetStub().GetChannelID())
 	lowerNonSpace := lus.NormalizeString(request.ContractName)
 
@@ -55,7 +55,7 @@ func (ic *ContractIdentity) CreateAccess(ctx contractapi.TransactionContextInter
 // Returns:
 //		0: AccessResponse
 //		1: error
-func (ic *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*model.AccessResponse, error) {
+func (ci *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterface, request model.GetRequest) (*model.AccessResponse, error) {
 	log.Printf("[%s][GetAccess]", ctx.GetStub().GetChannelID())
 
 	key, err := ctx.GetStub().CreateCompositeKey(AccessDocType, []string{request.ID})
@@ -89,7 +89,7 @@ func (ic *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterfac
 // Returns:
 //		0: []model.AccessResponse
 //		1: error
-func (ic *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface) ([]model.AccessResponse, error) {
+func (ci *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface) ([]model.AccessResponse, error) {
 	log.Printf("[%s][GetAccesses]", ctx.GetStub().GetChannelID())
 
 	accessesResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(AccessDocType, []string{})
@@ -121,7 +121,7 @@ func (ic *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterf
 }
 
 // updateAccess
-func (ic *ContractIdentity) updateAccess(ctx contractapi.TransactionContextInterface, request model.AccessUpdateRequest) error {
+func (ci *ContractIdentity) updateAccess(ctx contractapi.TransactionContextInterface, request model.AccessUpdateRequest) error {
 	log.Printf("[%s][updateAccess]", ctx.GetStub().GetChannelID())
 	key, err := ctx.GetStub().CreateCompositeKey(AccessDocType, []string{request.ID})
 	if err != nil {
@@ -157,7 +157,7 @@ func (ic *ContractIdentity) updateAccess(ctx contractapi.TransactionContextInter
 }
 
 // deleteAccess
-func (ic *ContractIdentity) deleteAccess(ctx contractapi.TransactionContextInterface, request model.GetRequest) error {
+func (ci *ContractIdentity) deleteAccess(ctx contractapi.TransactionContextInterface, request model.GetRequest) error {
 	log.Printf("[%s][deleteAccess]", ctx.GetStub().GetChannelID())
 	if err := lus.DeleteIndex(ctx.GetStub(), AccessDocType, []string{request.ID}, true); err != nil {
 		return err

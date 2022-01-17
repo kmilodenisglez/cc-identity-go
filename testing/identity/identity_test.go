@@ -2,10 +2,12 @@ package identity
 
 import (
 	"bytes"
+	"crypto/ecdsa"
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
 	"encoding/pem"
+	"fmt"
 	"github.com/hyperledger/fabric-chaincode-go/pkg/attrmgr"
 	"github.com/hyperledger/fabric-protos-go/ledger/queryresult"
 	"github.com/hyperledger/fabric-protos-go/msp"
@@ -14,7 +16,8 @@ import (
 	"github.com/ic-matcom/cc-identity-go/testing"
 	"github.com/ic-matcom/cc-identity-go/testing/mocks"
 	"github.com/ic-matcom/cc-identity-go/testing/testcerts"
-	model "github.com/ic-matcom/model-identity-go"
+	model "github.com/ic-matcom/model-identity-go/model"
+	modeltools "github.com/ic-matcom/model-identity-go/tools"
 	"github.com/onsi/ginkgo"
 	"github.com/onsi/gomega"
 	"time"
@@ -121,7 +124,7 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		cert, err := lus.GetX509CertFromPemByte(testing.CertByteRootTecnomatica)
 		gomega.Expect(err).NotTo(gomega.HaveOccurred())
 
-		attrs := lus.GetAttrsCert(cert)
+		attrs := modeltools.GetAttrsCert(cert)
 
 		gomega.Expect(attrs.Name).To(gomega.BeIdenticalTo("Autoridad de Certificación Tecnomática"))
 		gomega.Expect(attrs.DNI).To(gomega.BeIdenticalTo(""))
@@ -137,7 +140,7 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		cert, err := lus.GetX509CertFromPemByte(testing.CertByteUserYisel)
 		gomega.Expect(err).NotTo(gomega.HaveOccurred())
 
-		attrs := lus.GetAttrsCert(cert)
+		attrs := modeltools.GetAttrsCert(cert)
 
 		gomega.Expect(attrs.Name).To(gomega.BeIdenticalTo("Yisel Astiazarain Din"))
 		gomega.Expect(attrs.DNI).To(gomega.BeIdenticalTo("87051211457"))
@@ -201,7 +204,7 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		cert, err := lus.GetX509CertFromPemByte(testing.CertByteRootTecnomatica)
 		gomega.Expect(err).NotTo(gomega.HaveOccurred())
 
-		attrs := lus.GetAttrsCert(cert)
+		attrs := modeltools.GetAttrsCert(cert)
 		gomega.Expect(attrs.Name).To(gomega.BeIdenticalTo("Autoridad de Certificación Tecnomática"))
 	})
 
@@ -215,6 +218,17 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		b64RootCertTecnomatica := base64.StdEncoding.EncodeToString(testing.CertByteRootTecnomatica)
 		cert, err := lus.GetX509CertFromPemByte(testing.CertByteRootTecnomatica)
 		dateCert := lus.GetDateCertificate(cert)
+		// begin: publicKey
+		parsedKey, ok := cert.PublicKey.(*ecdsa.PublicKey)
+		if !ok {
+			fmt.Errorf("wanted an ECDSA public key but found: %#v", parsedKey)
+		}
+		parsedPKBytes, err := x509.MarshalPKIXPublicKey(parsedKey)
+		if err != nil {
+			panic(err)
+		}
+		PublicKey := base64.StdEncoding.EncodeToString(parsedPKBytes)
+		// end
 		gomega.Expect(err).To(gomega.BeNil())
 		issuerRequest := model.IssuerCreateRequest{
 			Name:    "Autoridad de Certificación Tecnomática",
@@ -233,9 +247,9 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		actualIssuerJSON, err := json.Marshal(actualIssuer)
 		expectedIssuer := model.IssuerQueryResponse{
 			//DocType: identity.IssuerDocType,
-			ID:      actualIssuer.ID,
-			Name:    "Autoridad de Certificación Tecnomática",
-			CertPem: b64RootCertTecnomatica,
+			ID:        actualIssuer.ID,
+			Name:      "Autoridad de Certificación Tecnomática",
+			PublicKey: PublicKey,
 			Attrs: model.Attrs{
 				Name:               "Autoridad de Certificación Tecnomática",
 				DNI:                "",
@@ -260,7 +274,7 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		// base64 encode
 		b64RootCertTecnomatica := base64.StdEncoding.EncodeToString(testing.CertByteRootTecnomatica)
 
-		issuer := identity.Issuer{
+		issuer := model.Issuer{
 			DocType: identity.IssuerDocType,
 			ID:      testing.ID1,
 			Name:    "Tecnomatica",
@@ -305,7 +319,7 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		// using client with admin cert
 		chaincodeStub.GetCreatorReturns(org1MSPAdmin, nil)
 
-		returned := identity.Participant{
+		returned := model.Participant{
 			Did:     testing.Did1,
 			Roles:   []string{},
 			Creator: "",
@@ -342,7 +356,7 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 		gomega.Expect(err).To(gomega.BeNil())
 
 		identRequest := model.ParticipantCreateRequest{
-			Did:        testing.Did1,
+			PublicKey:  testing.PublicKey,
 			IssuerID:   testing.ID1,
 			CreatorDid: "",
 			CertPem:    b64ClientCert,
@@ -374,9 +388,9 @@ var _ = ginkgo.Describe("Identity Smart Contract", func() {
 
 		//GetIssuerHistory
 		record := &model.IssuerQueryResponse{
-			ID:      testing.ID1,
-			Name:    "Autoridad de Certificación Tecnomática",
-			CertPem: testing.GomegaString(),
+			ID:        testing.ID1,
+			Name:      "Autoridad de Certificación Tecnomática",
+			PublicKey: testing.GomegaString(),
 		}
 
 		history1 := model.IssuerHistoryQueryResponse{

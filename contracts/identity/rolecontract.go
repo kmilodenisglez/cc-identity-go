@@ -11,10 +11,10 @@ import (
 
 // TODO: remove model-traceability-go dependence
 // CreateRole
-func (ic *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterface, request modelapi.RoleCreateRequest) (*modelapi.RoleResponse, error) {
+func (ci *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterface, request modelapi.RoleCreateRequest) (*modelapi.RoleResponse, error) {
 	log.Printf("[%s][CreateRole]", ctx.GetStub().GetChannelID())
 
-	id := lus.GenerateUUID()
+	id := lus.GenerateUUIDStr()
 	key, err := ctx.GetStub().CreateCompositeKey(RoleDocType, []string{id})
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (ic *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterfa
 }
 
 // GetRole
-func (ic *ContractIdentity) GetRole(ctx contractapi.TransactionContextInterface, request modelapi.GetRequest) (*modelapi.RoleResponse, error) {
+func (ci *ContractIdentity) GetRole(ctx contractapi.TransactionContextInterface, request modelapi.GetRequest) (*modelapi.RoleResponse, error) {
 	log.Printf("[%s][GetRole]", ctx.GetStub().GetChannelID())
 
 	key, err := ctx.GetStub().CreateCompositeKey(RoleDocType, []string{request.ID})
@@ -79,7 +79,7 @@ func (ic *ContractIdentity) GetRole(ctx contractapi.TransactionContextInterface,
 }
 
 // GetRoles get all role
-func (ic *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface) ([]modelapi.RoleResponse, error) {
+func (ci *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface) ([]modelapi.RoleResponse, error) {
 	log.Printf("[%s][GetRoles]", ctx.GetStub().GetChannelID())
 
 	rolesResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(RoleDocType, []string{})
@@ -111,7 +111,7 @@ func (ic *ContractIdentity) GetRoles(ctx contractapi.TransactionContextInterface
 }
 
 // UpdateRole
-func (ic *ContractIdentity) UpdateRole(ctx contractapi.TransactionContextInterface, request modelapi.RoleUpdateRequest) error {
+func (ci *ContractIdentity) UpdateRole(ctx contractapi.TransactionContextInterface, request modelapi.RoleUpdateRequest) error {
 	log.Printf("[%s][UpdateRole]", ctx.GetStub().GetChannelID())
 	key, err := ctx.GetStub().CreateCompositeKey(RoleDocType, []string{request.ID})
 	if err != nil {
@@ -147,7 +147,7 @@ func (ic *ContractIdentity) UpdateRole(ctx contractapi.TransactionContextInterfa
 }
 
 // DeleteRole
-func (ic *ContractIdentity) DeleteRole(ctx contractapi.TransactionContextInterface, request modelapi.GetRequest) error {
+func (ci *ContractIdentity) DeleteRole(ctx contractapi.TransactionContextInterface, request modelapi.GetRequest) error {
 	log.Printf("[%s][DeleteRole]", ctx.GetStub().GetChannelID())
 	if err := lus.DeleteIndex(ctx.GetStub(), RoleDocType, []string{request.ID}, true); err != nil {
 		return err

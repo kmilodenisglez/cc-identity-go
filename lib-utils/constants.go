@@ -1,4 +1,4 @@
-package lib_utils
+package libutils
 
 // Error responses
 // errorXXX occurs when XXX
