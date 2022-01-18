@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+	model "github.com/ic-matcom/model-identity-go/model"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"golang.org/x/text/runes"
@@ -283,4 +284,25 @@ func ConstructQueryResponseFromIterator(resultsIterator shim.StateQueryIteratorI
 		assets = append(assets, asset)
 	}
 	return assets, nil
+}
+
+// GetQueryResultForQueryStringWithPagination executes the passed in query string with
+// pagination info. The result set is built and returned as a byte array containing the JSON results.
+func GetQueryResultForQueryStringWithPagination(ctx contractapi.TransactionContextInterface, queryString string, pageSize int32, bookmark string) (*model.PaginatedQueryResponse, error) {
+	resultsIterator, responseMetadata, err := ctx.GetStub().GetQueryResultWithPagination(queryString, pageSize, bookmark)
+	if err != nil {
+		return nil, err
+	}
+	defer resultsIterator.Close()
+
+	assets, err := ConstructQueryResponseFromIterator(resultsIterator)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.PaginatedQueryResponse{
+		Records:             assets,
+		FetchedRecordsCount: responseMetadata.FetchedRecordsCount,
+		Bookmark:            responseMetadata.Bookmark,
+	}, nil
 }

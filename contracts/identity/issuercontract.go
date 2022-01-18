@@ -1,9 +1,6 @@
 package identity
 
 import (
-	"crypto/ecdsa"
-	"crypto/x509"
-	"encoding/base64"
 	"fmt"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
@@ -57,15 +54,10 @@ func (ci *ContractIdentity) CreateIssuer(ctx contractapi.TransactionContextInter
 	// get dates
 	dateCert := lus.GetDateCertificate(certX509)
 	// begin: get publicKey
-	parsedKey, ok := certX509.PublicKey.(*ecdsa.PublicKey)
-	if !ok {
-		return nil, fmt.Errorf("wanted an ECDSA public key but found: %#v", parsedKey)
-	}
-	parsedPKBytes, err := x509.MarshalPKIXPublicKey(parsedKey)
+	publicKey, err := lus.GetPublicKey(certX509)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	publicKey := base64.StdEncoding.EncodeToString(parsedPKBytes)
 	// end: publicKey
 
 	// Create Issuer

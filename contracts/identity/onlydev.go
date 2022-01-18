@@ -21,17 +21,43 @@ func (ci *ContractIdentity) OnlyDevAccess(ctx contractapi.TransactionContextInte
 		return fmt.Errorf(err.Error())
 	}
 
-	roleCupetQualityGroup := model.RoleCreateRequest{
-		Name:              "Gestor de identidad",
-		ContractFunctions: modeltools.GetTransactions(ci),
+	access := model.AccessCreateRequest{
+		ContractName:      ci.Name,                        // contract name
+		ContractFunctions: modeltools.GetTransactions(ci), // functions name
 	}
-	// create "Grupo de Calidad de Cupet" role
-	role, err := ci.CreateRole(ctx, roleCupetQualityGroup)
+	// create access
+	_, err := ci.CreateAccess(ctx, access)
 	if err != nil {
 		return err
 	}
-	log.Printf("role added: %v", role)
 
+	role := model.RoleCreateRequest{
+		Name:              "Identity",
+		ContractFunctions: access.ContractFunctions,
+	}
+	_, err = ci.CreateRole(ctx, role)
+	if err != nil {
+		return err
+	}
+
+	other := model.AccessCreateRequest{
+		ContractName:      "Other Access",                 // contract name
+		ContractFunctions: modeltools.GetTransactions(ci), // functions name
+	}
+	// create access
+	_, err = ci.CreateAccess(ctx, other)
+	if err != nil {
+		return err
+	}
+
+	otherRole := model.RoleCreateRequest{
+		Name:              "Other only Test",
+		ContractFunctions: access.ContractFunctions,
+	}
+	_, err = ci.CreateRole(ctx, otherRole)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

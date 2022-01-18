@@ -94,11 +94,11 @@ func (ci *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		if creator == nil || err != nil {
 			return nil, fmt.Errorf("failed to get Creator identity: %v", err)
 		}
-		// TODO: debug then
 		creatorID = creator.ID
 	} else {
 		creatorID = ""
 	}
+	// TODO: comprobar luego con Tecnomatica el tipo de certificado para el EMISOR - debe ser x509, de lo contrario hay que implementar nuevas funciones para verificar y obtener publicKey
 	// get default issuer
 	if request.IssuerID == "" {
 		issuerResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(ObjectTypeIssuerByDefault, []string{})
@@ -455,18 +455,18 @@ func (ci *ContractIdentity) GetParticipantHistory(ctx contractapi.TransactionCon
 // Returns:
 //		0: []model_api.ParticipantResponse
 //		1: error
-func (ci *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextInterface) ([]model.ParticipantResponse, error) {
+func (ci *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextInterface, pageSize int32, bookmark string) (*model.PaginatedQueryResponse, error) {
 	log.Printf("[%s][GetParticipants]", ctx.GetStub().GetChannelID())
 
-	identitiesResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(ParticipantDocType, []string{})
+	resultsIterator, responseMetadata, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(ParticipantDocType, []string{}, pageSize, bookmark)
 	if err != nil {
 		return nil, err
 	}
-	defer identitiesResultsIterator.Close()
+	defer resultsIterator.Close()
 
-	var identities []model.ParticipantResponse
-	if identitiesResultsIterator.HasNext() {
-		responseRange, err := identitiesResultsIterator.Next()
+	var items []interface{}
+	for resultsIterator.HasNext() {
+		responseRange, err := resultsIterator.Next()
 		if responseRange == nil {
 			return nil, err
 		}
@@ -476,9 +476,14 @@ func (ci *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextIn
 		if err != nil {
 			return nil, err
 		}
-		identities = append(identities, identity)
+		items = append(items, identity)
 	}
-	return identities, nil
+
+	return &model.PaginatedQueryResponse{
+		Records:             items,
+		FetchedRecordsCount: responseMetadata.FetchedRecordsCount,
+		Bookmark:            responseMetadata.Bookmark,
+	}, nil
 }
 
 // ParticipantExits returns true when identity with given key exists in the worldState.
