@@ -76,7 +76,7 @@ func GetPublicKey(cert *x509.Certificate) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("wanted an %s public key but found: %#v", cert.PublicKeyAlgorithm, parsedKey)
 	}
-	parsedPKBytes, err := x509.MarshalPKIXPublicKey(parsedKey)
+	parsedPKBytes, err := x509.MarshalPKIXPublicKey(parsedKey.PublicKey)
 	if err != nil {
 		return "", err
 	}
