@@ -2,6 +2,9 @@ package libutils
 
 import (
 	"bytes"
+	"crypto/ecdsa"
+	"crypto/ed25519"
+	"crypto/rsa"
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
@@ -53,6 +56,33 @@ func GetX509CertFromPem(certPemBase64 string) (*x509.Certificate, error) {
 	return cert, nil
 }
 
+func GetPublicKey(cert *x509.Certificate) (string, error) {
+	type PKey struct {
+		PublicKey interface{}
+	}
+	var parsedKey = PKey{PublicKey: nil}
+	ok := false
+
+	switch cert.PublicKeyAlgorithm {
+	case x509.RSA:
+		parsedKey.PublicKey, ok = cert.PublicKey.(*rsa.PublicKey)
+	case x509.ECDSA:
+		parsedKey.PublicKey, ok = cert.PublicKey.(*ecdsa.PublicKey)
+	case x509.Ed25519:
+		parsedKey.PublicKey, ok = cert.PublicKey.(*ed25519.PublicKey)
+	default:
+		return "", x509.ErrUnsupportedAlgorithm
+	}
+	if !ok {
+		return "", fmt.Errorf("wanted an %s public key but found: %#v", cert.PublicKeyAlgorithm, parsedKey)
+	}
+	parsedPKBytes, err := x509.MarshalPKIXPublicKey(parsedKey)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(parsedPKBytes), nil
+}
+
 func CompareCertsPemBase64(cert1, cert2 string) bool {
 	// decode certificate
 	certByte1, err := base64.StdEncoding.DecodeString(cert1)
@@ -65,7 +95,7 @@ func CompareCertsPemBase64(cert1, cert2 string) bool {
 		return false
 	}
 
-	return bytes.Compare(certByte1, certByte2) == 0
+	return bytes.Equal(certByte1, certByte2)
 }
 
 func GetAttrsNonStandardCert(certPem []byte) (map[string]string, error) {

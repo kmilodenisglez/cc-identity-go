@@ -94,43 +94,43 @@ func (ci *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		if creator == nil || err != nil {
 			return nil, fmt.Errorf("failed to get Creator identity: %v", err)
 		}
-		// TODO: debug then
 		creatorID = creator.ID
 	} else {
 		creatorID = ""
 	}
+	// TODO: comprobar luego con Tecnomatica el tipo de certificado para el EMISOR - debe ser x509, de lo contrario hay que implementar nuevas funciones para verificar y obtener publicKey
 	// get default issuer
-	if request.IssuerID == "" {
-		issuerResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(ObjectTypeIssuerByDefault, []string{})
-		if err != nil {
-			return nil, err
-		}
-		defer issuerResultsIterator.Close()
-		if issuerResultsIterator.HasNext() {
-			responseRange, err := issuerResultsIterator.Next()
-			if responseRange == nil {
-				return nil, err
-			}
-
-			_, compositeKeyParts, err := ctx.GetStub().SplitCompositeKey(responseRange.Key)
-			if err != nil {
-				return nil, err
-			}
-			if len(compositeKeyParts) > 0 {
-				request.IssuerID = compositeKeyParts[0]
-			}
-		} else {
-			return nil, fmt.Errorf("there is no default issuer, pass the issuer id as parameter")
-		}
-	} else {
-		// get Issuer by ID
-		issuer, err := ci.GetIssuer(ctx, model.GetRequest{ID: request.IssuerID})
-		if err != nil {
-			return nil, err
-		} else if issuer == nil {
-			return nil, fmt.Errorf("failed to get issuer ")
-		}
-	}
+	//if request.IssuerID == "" {
+	//	issuerResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(ObjectTypeIssuerByDefault, []string{})
+	//	if err != nil {
+	//		return nil, err
+	//	}
+	//	defer issuerResultsIterator.Close()
+	//	if issuerResultsIterator.HasNext() {
+	//		responseRange, err := issuerResultsIterator.Next()
+	//		if responseRange == nil {
+	//			return nil, err
+	//		}
+	//
+	//		_, compositeKeyParts, err := ctx.GetStub().SplitCompositeKey(responseRange.Key)
+	//		if err != nil {
+	//			return nil, err
+	//		}
+	//		if len(compositeKeyParts) > 0 {
+	//			request.IssuerID = compositeKeyParts[0]
+	//		}
+	//	} else {
+	//		return nil, fmt.Errorf("there is no default issuer, pass the issuer id as parameter")
+	//	}
+	//} else {
+	//	// get Issuer by ID
+	//	issuer, err := ci.GetIssuer(ctx, model.GetRequest{ID: request.IssuerID})
+	//	if err != nil {
+	//		return nil, err
+	//	} else if issuer == nil {
+	//		return nil, fmt.Errorf("failed to get issuer ")
+	//	}
+	//}
 
 	// timestamp when the transaction was created, have the same value across all endorsers
 	txTimestamp, err := lus.GetTxTimestampRFC3339(ctx.GetStub())
