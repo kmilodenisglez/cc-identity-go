@@ -40,6 +40,11 @@ func (ci *ContractIdentity) QueryAssetsBy(ctx contractapi.TransactionContextInte
 // Only available on state databases that support rich query (e.g. CouchDB)
 // Paginated queries are only valid for read only transactions.
 // Example: Pagination with Ad hoc Rich Query
-func (ci *ContractIdentity) QueryAssetsWithPagination(ctx contractapi.TransactionContextInterface, queryString string, pageSize int, bookmark string) (*model.PaginatedQueryResponse, error) {
-	return libUtils.GetQueryResultForQueryStringWithPagination(ctx, queryString, int32(pageSize), bookmark)
+func (ci *ContractIdentity) QueryAssetsWithPagination(ctx contractapi.TransactionContextInterface, selector model.RichQuerySelector) (*model.PaginatedQueryResponse, error) {
+	queryString, err := json.MarshalToString(&selector.Selector)
+	if err != nil {
+		return nil, err
+	}
+
+	return libUtils.GetQueryResultForQueryStringWithPagination(ctx, queryString, int32(selector.PageSize), selector.Bookmark)
 }
