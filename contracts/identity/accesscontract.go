@@ -85,9 +85,9 @@ func (ci *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterfac
 // GetAccesses get all access
 //
 // Arguments:
-//		0: none
+//		0: request model.RichQuerySelector
 // Returns:
-//		0: []model.AccessResponse
+//		0: *model.PaginatedQueryResponse
 //		1: error
 func (ci *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface, request model.RichQuerySelector) (*model.PaginatedQueryResponse, error) {
 	log.Printf("[%s][GetAccesses]", ctx.GetStub().GetChannelID())
