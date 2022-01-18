@@ -464,7 +464,7 @@ func (ci *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextIn
 	}
 	defer resultsIterator.Close()
 
-	var items []interface{}
+	var items = make([]interface{}, 0)
 	for resultsIterator.HasNext() {
 		responseRange, err := resultsIterator.Next()
 		if responseRange == nil {
