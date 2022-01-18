@@ -48,8 +48,8 @@ peer chaincode invoke  -c '{"function":"org.identity:OnlyDevParticipant","Args":
 # before must invoke InitLedger
 
 # GetAccesses (arg: none)
-peer chaincode query -c '{"function":"org.identity:GetAccesses","Args":[]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
-peer chaincode query  -c  '{"function":"org.identity:QueryAssetsWithPagination","Args":["{\"selector\":{\"docType\":\"did.access\"}}", "3", ""]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
+peer chaincode query -c '{"function":"org.identity:GetAccesses","Args":["{\"pageSize\":3,\"bookmark\":\"\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
+peer chaincode query  -c  '{"function":"org.identity:QueryAssetsWithPagination","Args":["{\"queryString\":{\"selector\":{\"docType\":\"did.access\"}},\"pageSize\":3,\"bookmark\":\"\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 
 # GetAccess (arg: model.GetRequest)
 peer chaincode query -c '{"function":"org.identity:GetAccess","Args":["{\"id\":\"access-id\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
@@ -99,8 +99,8 @@ peer chaincode invoke  -c '{"function":"org.identity:CreateParticipant","Args":[
 peer chaincode query  -c '{"function":"org.identity:GetParticipant","Args":["{\"did\":\"did:ab43bdf5b4bcfac88ce9093ec3f0d58290f11c7ef6d2a683a7ee56746b333ec72\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 
 # GetParticipants (arg: none)
-peer chaincode query  -c  '{"function":"org.identity:QueryAssetsWithPagination","Args":["{\"selector\":{\"docType\":\"did.participant\"}}", "3", ""]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
-peer chaincode query -c '{"function":"org.identity:GetParticipants","Args":[]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
+peer chaincode query  -c  '{"function":"org.identity:QueryAssetsWithPagination","Args":["{\"queryString\":{\"selector\":{\"docType\":\"did.participant\"}},\"pageSize\":3,\"bookmark\":\"\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
+peer chaincode query -c '{"function":"org.identity:GetParticipants","Args":["{\"pageSize\":3,\"bookmark\":\"\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 
 # GetParticipantHistory (arg: model.ParticipantGetRequest)
 peer chaincode query -c '{"function":"org.identity:GetParticipantHistory","Args":["{\"did\":\"did:fa3bdf5b4bcfac88ce9093ec3f0d58290f11c7ef6d2a683a7ee56746b333ec71\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
@@ -123,9 +123,11 @@ peer chaincode query  -c  '{"function":"org.identity:QueryAssetsBy","Args":["{\"
 ### Rich Queries with Pagination
 # query "participant" by name in attrs field
 # searching for all participants named "Yisel"
-peer chaincode invoke  -c  '{"function":"org.identity:QueryAssetsWithPagination","Args":["{\"selector\":{\"docType\":\"did.participant\",\"attrs.name\":{\"$gt\":\"Yise\"}},\"use_index\":[\"indexParticipantAttrsDoc\",\"indexParticipantAttrs\"]}", "3", ""]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
+peer chaincode query  -c  '{"function":"org.identity:QueryAssetsWithPagination","Args":["{\"queryString\":{\"selector\":{\"docType\":\"did.participant\",\"attrs.name\":{\"$gt\":\"Yise\"},\"use_index\":[\"indexParticipantAttrsDoc\",\"indexParticipantAttrs\"]}},\"pageSize\":3,\"bookmark\":\"\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 ```
 
+
+["{\"queryString\":{\"selector\":{\"docType\":\"did.participant\",\"attrs.name\":{\"$gt\":\"Yise\"}}},\"pageSize\":3,\"bookmark\":\"\"}"]
 
 peer chaincode invoke  -c '{"function":"org.tecnomatica.fuelbatch:Instantiate","Args":["{\"id\":\"id\",\"payload\":\"{}\",\"signature\":\"sign\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 
