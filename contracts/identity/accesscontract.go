@@ -89,22 +89,21 @@ func (ci *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterfac
 // Returns:
 //		0: []model.AccessResponse
 //		1: error
-func (ci *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface) ([]model.AccessResponse, error) {
+func (ci *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface, pageSize int32, bookmark string) (*model.PaginatedQueryResponse, error) {
 	log.Printf("[%s][GetAccesses]", ctx.GetStub().GetChannelID())
 
-	accessesResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(AccessDocType, []string{})
+	resultsIterator, responseMetadata, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(AccessDocType, []string{}, pageSize, bookmark)
 	if err != nil {
 		return nil, err
 	}
-	defer accessesResultsIterator.Close()
+	defer resultsIterator.Close()
 
-	var items []model.AccessResponse
-	if accessesResultsIterator.HasNext() {
-		responseRange, err := accessesResultsIterator.Next()
+	var items []interface{}
+	for resultsIterator.HasNext() {
+		responseRange, err := resultsIterator.Next()
 		if responseRange == nil {
 			return nil, err
 		}
-
 		var item model.Access
 		err = json.Unmarshal(responseRange.Value, &item)
 		if err != nil {
@@ -117,7 +116,12 @@ func (ci *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterf
 			ContractFunctions: lus.MapToSlice(item.ContractFunctions),
 		})
 	}
-	return items, nil
+
+	return &model.PaginatedQueryResponse{
+		Records:             items,
+		FetchedRecordsCount: responseMetadata.FetchedRecordsCount,
+		Bookmark:            responseMetadata.Bookmark,
+	}, nil
 }
 
 // updateAccess
