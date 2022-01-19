@@ -89,7 +89,7 @@ func (ci *ContractIdentity) GetAccess(ctx contractapi.TransactionContextInterfac
 // Returns:
 //		0: *model.PaginatedQueryResponse
 //		1: error
-func (ci *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface, request model.RichQuerySelector) (*model.PaginatedQueryResponse, error) {
+func (ci *ContractIdentity) GetAccesses(ctx contractapi.TransactionContextInterface, request model.QueryPaginator) (*model.PaginatedQueryResponse, error) {
 	log.Printf("[%s][GetAccesses]", ctx.GetStub().GetChannelID())
 
 	resultsIterator, responseMetadata, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(AccessDocType, []string{}, int32(request.PageSize), request.Bookmark)

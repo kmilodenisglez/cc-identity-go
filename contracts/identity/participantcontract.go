@@ -455,7 +455,7 @@ func (ci *ContractIdentity) GetParticipantHistory(ctx contractapi.TransactionCon
 // Returns:
 //		0: *model.PaginatedQueryResponse
 //		1: error
-func (ci *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextInterface, request model.RichQuerySelector) (*model.PaginatedQueryResponse, error) {
+func (ci *ContractIdentity) GetParticipants(ctx contractapi.TransactionContextInterface, request model.QueryPaginator) (*model.PaginatedQueryResponse, error) {
 	log.Printf("[%s][GetParticipants]", ctx.GetStub().GetChannelID())
 
 	resultsIterator, responseMetadata, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(ParticipantDocType, []string{}, int32(request.PageSize), request.Bookmark)
