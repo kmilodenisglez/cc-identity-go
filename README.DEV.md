@@ -123,7 +123,7 @@ peer chaincode query  -c  '{"function":"org.identity:QueryAssetsBy","Args":["{\"
 ### Rich Queries with Pagination
 # query "participant" by name in attrs field
 # searching for all participants named "Yisel"
-peer chaincode query  -c  '{"function":"org.identity:QueryAssetsWithPagination","Args":["{\"queryString\":{\"selector\":{\"docType\":\"did.participant\",\"attrs.name\":{\"$gt\":\"Yise\"},\"use_index\":[\"indexParticipantAttrsDoc\",\"indexParticipantAttrs\"]}},\"pageSize\":3,\"bookmark\":\"\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
+peer chaincode query  -c  '{"function":"org.identity:QueryAssetsWithPagination","Args":["{\"queryString\":{\"selector\":{\"docType\":\"did.participant\",\"attrs.name\":{\"$gt\":\"Yise\"}}},\"pageSize\":3,\"bookmark\":\"\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 ```
 
 
