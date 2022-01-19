@@ -45,6 +45,7 @@ func (ci *ContractIdentity) QueryAssetsWithPagination(ctx contractapi.Transactio
 	if err != nil {
 		return nil, err
 	}
+	//TODO: add validation: len(request.QueryString)
 
 	return libUtils.GetQueryResultForQueryStringWithPagination(ctx, queryString, int32(request.PageSize), request.Bookmark)
 }
