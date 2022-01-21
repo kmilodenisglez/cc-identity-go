@@ -1,1 +1,2 @@
-- crear model para identity chaincode
+- modificar el history participant, para que funcione con el ID, y no el DID
+- analizar por que desde el swagger cuando hago ejecuto OnlyDev y se pobla el participante, luego puedo duplicarlo en el createParticipant del swagger
