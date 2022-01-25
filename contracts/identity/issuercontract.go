@@ -244,7 +244,7 @@ func (ci *ContractIdentity) GetIssuers(ctx contractapi.TransactionContextInterfa
 	}
 	defer resultsIterator.Close()
 
-	var items []model.IssuerQueryResponse
+	var items = make([]model.IssuerQueryResponse, 0)
 	for resultsIterator.HasNext() {
 		responseRange, err := resultsIterator.Next()
 		if responseRange == nil {
