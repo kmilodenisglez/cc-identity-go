@@ -50,7 +50,7 @@ func GenerateUUIDFormatDate(stub shim.ChaincodeStubInterface) string {
 	if err != nil {
 		return uuid
 	}
-	strNow := timestamp.AsTime().Format("2006JAN02-150405")
+	strNow := timestamp.AsTime().Format("20060102-150405")
 	date := strings.Split(strNow, "-")
 	if len(date) != 2 {
 		return uuid
