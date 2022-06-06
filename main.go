@@ -7,14 +7,30 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-jose/go-jose/v3"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/ic-matcom/cc-identity-go/contracts/identity"
 	"github.com/ic-matcom/cc-identity-go/hooks"
+	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
 	modelapi "github.com/ic-matcom/model-identity-go/model"
+	"io/ioutil"
 	"log"
+	"os"
 )
 
+type serverConfig struct {
+	CCID    string
+	Address string
+}
+
 func main() {
+	// See chaincode.env
+	config := serverConfig{
+		CCID:    os.Getenv("CHAINCODE_ID"),
+		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
+	}
+
+
 	// *** This smart-constract later becomes a chaincode  ***
 	contractIdentity := new(identity.ContractIdentity)
 	contractIdentity.Name = modelapi.ContractNameIdentity
@@ -30,8 +46,15 @@ func main() {
 	chaincode.Info.Version = "0.0.2"
 	chaincode.DefaultContract = contractIdentity.GetName() // default contract
 
-	if err := chaincode.Start(); err != nil {
-		log.Panicf("Error starting chaincode %v", err)
+	server := &shim.ChaincodeServer{
+		CCID:     config.CCID,
+		Address:  config.Address,
+		CC:       chaincode,
+		TLSProps: getTLSProperties(),
+	}
+
+	if err := server.Start(); err != nil {
+		log.Panicf("Error starting %s %s %v", chaincode.Info.Title, chaincode.Info.Version, err)
 	}
 
 	//_, err = testcerts.Certificates[2].PrivateBytes()
@@ -87,6 +110,44 @@ func main() {
 	//fmt.Println("signed: ", res)
 	//verify(`{"payload":"eyJuYW1lIjoibmFtZSAxIn0","protected":"eyJhbGciOiJFUzI1NiJ9","signature":"lMFcByiTjr4kd0C9qWVPCdpLCcsgpBuoUSh73mdm_xstKNxoKWXwaO0GkBF_55T5bJSaaSphUfZhu-9XmNABQw"}`, parsedPKBytes)
 
+}
+
+func getTLSProperties() shim.TLSProperties {
+	// Check if chaincode is TLS enabled
+	tlsDisabledStr := lus.GetEnvOrDefault("CHAINCODE_TLS_DISABLED", "true")
+	key := lus.GetEnvOrDefault("CHAINCODE_TLS_KEY", "")
+	cert := lus.GetEnvOrDefault("CHAINCODE_TLS_CERT", "")
+	clientCACert := lus.GetEnvOrDefault("CHAINCODE_CLIENT_CA_CERT", "")
+
+	// convert tlsDisabledStr to boolean
+	tlsDisabled := lus.GetBoolOrDefault(tlsDisabledStr, false)
+	var keyBytes, certBytes, clientCACertBytes []byte
+	var err error
+
+	if !tlsDisabled {
+		keyBytes, err = ioutil.ReadFile(key)
+		if err != nil {
+			log.Panicf("error while reading the crypto file: %s", err)
+		}
+		certBytes, err = ioutil.ReadFile(cert)
+		if err != nil {
+			log.Panicf("error while reading the crypto file: %s", err)
+		}
+	}
+	// Did not request for the peer cert verification
+	if clientCACert != "" {
+		clientCACertBytes, err = ioutil.ReadFile(clientCACert)
+		if err != nil {
+			log.Panicf("error while reading the crypto file: %s", err)
+		}
+	}
+
+	return shim.TLSProperties{
+		Disabled:      tlsDisabled,
+		Key:           keyBytes,
+		Cert:          certBytes,
+		ClientCACerts: clientCACertBytes,
+	}
 }
 
 func verify(input string, pubKey []byte) {

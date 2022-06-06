@@ -1,0 +1,19 @@
+version: "3.6"
+
+networks:
+    docker_test:
+        external: true
+
+services:
+    identity.uh.com:
+        build: .
+        container_name: cc-identity.uh.cu
+        hostname: cc-identity.uh.cu
+        volumes:
+            - ./crypto:/crypto
+        env_file:
+            - chaincode.env
+        networks:
+            docker_test:
+        expose:
+            - 9999
