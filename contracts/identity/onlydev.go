@@ -110,5 +110,5 @@ func (ci *ContractIdentity) OnlyDevParticipant(ctx contractapi.TransactionContex
 		return "", fmt.Errorf(err.Error())
 	}
 
-	return identity.Did, nil
+	return identity.DID, nil
 }
