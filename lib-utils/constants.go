@@ -9,6 +9,7 @@ const (
 	ErrorVerifying         = `error verifying signature`
 	ErrorGetMSPID          = `failed getting the client's MSPID: %v`
 	ErrorGetIdentity       = `failed to get identity %s`
+	ErrorUpdateIdentity    = `failed to update identity %s`
 	ErrorIdentityExists    = `identity %s already exists`
 	ErrorDefaultNotExist   = `%s does not exist`
 	ErrorRequiredParameter = "a required parameter (%s) was not provided"

@@ -2,6 +2,7 @@ package identity
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
@@ -53,6 +54,8 @@ func (ci *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 		return nil, fmt.Errorf(lus.ErrorRequiredParameter, "publicKey")
 	}
 
+	publicKey := request.PublicKey
+
 	// Get MSP ID of the client
 	clientMSPID, err := ctx.GetClientIdentity().GetMSPID()
 	if err != nil {
@@ -97,6 +100,15 @@ func (ci *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 
 		// get attrs
 		attrs = modeltools.GetAttrsCert(certX509)
+
+		// validating publicKey
+		certPublicKey, err := lus.GetPublicKey(certX509)
+		if err != nil {
+			return nil, err
+		}
+		if strings.Compare(certPublicKey, publicKey) != 0 {
+			return nil, fmt.Errorf("public key parameter does not match the one obtained from the certificate")
+		}
 	}
 
 	// timestamp when the transaction was created, have the same value across all endorsers
@@ -114,7 +126,7 @@ func (ci *ContractIdentity) CreateParticipant(ctx contractapi.TransactionContext
 	identity := model.Participant{
 		DocType:     ParticipantDocType,
 		Did:         did,
-		PublicKey:   request.PublicKey,
+		PublicKey:   publicKey,
 		IssuerID:    request.IssuerID,
 		Creator:     "",
 		Roles:       request.Roles,
@@ -223,9 +235,8 @@ func (ci *ContractIdentity) DeleteParticipant(ctx contractapi.TransactionContext
 	return err
 }
 
-// UpdateParticipant
 func (ci *ContractIdentity) UpdateParticipant(ctx contractapi.TransactionContextInterface, request model.ParticipantUpdateRequest) error {
-	log.Printf("[%s][RenewParticipant]", ctx.GetStub().GetChannelID())
+	log.Printf("[%s][UpdateParticipant]", ctx.GetStub().GetChannelID())
 
 	// check if client-node connected as admin
 	if err := lus.AssertAdmin(ctx); err != nil {
@@ -237,46 +248,41 @@ func (ci *ContractIdentity) UpdateParticipant(ctx contractapi.TransactionContext
 		return fmt.Errorf(lus.ErrorRequiredParameter, "did")
 	}
 
-	exist, err := ci.ParticipantExits(ctx, model.ParticipantGetRequest{Did: did})
+	identity, err := ci.GetParticipant(ctx, model.ParticipantGetRequest{Did: did})
 	if err != nil {
 		return err
-	} else if !exist {
-		return fmt.Errorf(lus.ErrorIdentityExists, did)
+	} else if identity == nil {
+		return fmt.Errorf(lus.ErrorDefaultNotExist, did)
 	}
 
 	// compositeKey ID
-	compositeKeyID, err := ctx.GetStub().CreateCompositeKey(ParticipantDocType, []string{request.DID})
+	compositeKeyID, err := ctx.GetStub().CreateCompositeKey(ParticipantDocType, []string{did})
 	if err != nil {
 		return err
 	}
 
-	// JSON encoding of identity
-	identityJE, _ := json.Marshal(request)
-	if err := ctx.GetStub().PutState(compositeKeyID, identityJE); err != nil {
-		return fmt.Errorf("failed to create identity: %v", err)
+	valueToUpdate, err := lus.UpdateJSON(request, identity)
+	if err != nil {
+		return err
+	}
+	if err := ctx.GetStub().PutState(compositeKeyID, valueToUpdate); err != nil {
+		return fmt.Errorf(lus.ErrorUpdateIdentity, compositeKeyID)
 	}
 
 	return nil
 }
 
+
 func (ci *ContractIdentity) GetParticipant(ctx contractapi.TransactionContextInterface, request model.ParticipantGetRequest) (*model.Participant, error) {
 	log.Printf("[%s][GetParticipant]", ctx.GetStub().GetChannelID())
 
-	// compositeKey ID
-	compositeKeyID, err := ctx.GetStub().CreateCompositeKey(ParticipantDocType, []string{request.Did})
+	participant, err := ci.getParticipant(ctx, request.Did)
 	if err != nil {
 		return nil, err
 	}
 
-	identityBytes, err := ctx.GetStub().GetState(compositeKeyID)
-	if err != nil {
-		return nil, fmt.Errorf(lus.ErrorGetIdentity, compositeKeyID)
-	} else if identityBytes == nil {
-		return nil, fmt.Errorf(lus.ErrorDefaultNotExist, compositeKeyID)
-	}
-
 	var identity model.Participant
-	err = json.Unmarshal(identityBytes, &identity)
+	err = json.Unmarshal(participant, &identity)
 	if err != nil {
 		return nil, err
 	}
@@ -392,35 +398,20 @@ func (ci *ContractIdentity) ParticipantExits(ctx contractapi.TransactionContextI
 	return identityResultsIterator.HasNext(), nil
 }
 
-//func (ci *ContractIdentity) getParticipant(ctx contractapi.TransactionContextInterface, did string) (*privateIdentityResponse, error) {
-//	log.Printf("[%s][getParticipant]", ctx.GetStub().GetChannelID())
-//	identityResultsIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(ObjectTypeParticipantByDidUUID, []string{did})
-//	if err != nil {
-//		return nil, fmt.Errorf(lus.ErrorGetIdentity, did)
-//	}
-//	defer identityResultsIterator.Close()
-//
-//	if identityResultsIterator.HasNext() {
-//		responseRange, err := identityResultsIterator.Next()
-//		if responseRange == nil {
-//			return nil, err
-//		}
-//
-//		_, compositeKeyParts, err := ctx.GetStub().SplitCompositeKey(responseRange.Key)
-//		if err != nil {
-//			return nil, err
-//		}
-//		if len(compositeKeyParts) > 1 {
-//			log.Printf("participant DID-ID: %v", compositeKeyParts)
-//
-//			returnedIdentityID := compositeKeyParts[1]
-//			response, err := ci.readParticipant(ctx, returnedIdentityID)
-//			if err != nil {
-//				return nil, err
-//			}
-//			return response, nil
-//		}
-//	}
-//
-//	return nil, nil
-//}
+func (ci *ContractIdentity) getParticipant(ctx contractapi.TransactionContextInterface, did string) ([]byte, error) {
+	log.Printf("[%s][getParticipant]", ctx.GetStub().GetChannelID())
+	// compositeKey ID
+	compositeKeyID, err := ctx.GetStub().CreateCompositeKey(ParticipantDocType, []string{did})
+	if err != nil {
+		return nil, err
+	}
+
+	identityBytes, err := ctx.GetStub().GetState(compositeKeyID)
+	if err != nil {
+		return nil, fmt.Errorf(lus.ErrorGetIdentity, compositeKeyID)
+	} else if identityBytes == nil {
+		return nil, fmt.Errorf(lus.ErrorDefaultNotExist, compositeKeyID)
+	}
+
+	return identityBytes, nil
+}

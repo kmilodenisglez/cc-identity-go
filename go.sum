@@ -80,6 +80,16 @@ github.com/ic-matcom/model-identity-go v0.0.0-20220606013732-fcb9ba42502b h1:rW5
 github.com/ic-matcom/model-identity-go v0.0.0-20220606013732-fcb9ba42502b/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
 github.com/ic-matcom/model-identity-go v0.0.0-20220606022053-e210e8fde38a h1:b7nekye0S9aPr21x1idcTrefFlwPkiQ4MdkuG47dF0k=
 github.com/ic-matcom/model-identity-go v0.0.0-20220606022053-e210e8fde38a/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606142516-9391d5bc5f9f h1:GR9kM9e3tun96x4S8n1u7Yiuka5PJoK7SWOFey/9CUs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606142516-9391d5bc5f9f/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606151314-53c22f674721 h1:vfBmfIqB0ld/H+9UTDriZhwH2pfce4q2ecsCdWLC92Y=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606151314-53c22f674721/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606171122-9d1447d85360 h1:CGB4qktZPyIda2pOxxHzHIoXvGj7a47vlxs0fqYSgF4=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606171122-9d1447d85360/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606182252-1a16d20f05bc h1:kB+WFZ4TwaizmYECvmNcA/FYvRlcEJzt2a4SGv9/nAI=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606182252-1a16d20f05bc/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606222303-2dbea0f0e1bc h1:XDAVMh8HP8LEIc5F8NwzzsKTtr0UpJxIDkJzQmcz/Rs=
+github.com/ic-matcom/model-identity-go v0.0.0-20220606222303-2dbea0f0e1bc/go.mod h1:EHo3LOjvL1E7FKyWguS5hjkHHe4+WN07cFWDOrO+vIs=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
 github.com/joho/godotenv v1.3.0 h1:Zjp+RcGpHhGlrMbJzXTrZZPrWj+1vfm90La1wgB6Bhc=
 github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=

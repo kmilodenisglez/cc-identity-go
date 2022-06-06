@@ -101,6 +101,7 @@ func (ci *ContractIdentity) OnlyDevParticipant(ctx contractapi.TransactionContex
 	}
 
 	identityRequest := model.ParticipantCreateRequest{
+		DID:       "87081206903",
 		PublicKey: PublicKey,
 		CertPem:   b64UserWithAttrsCert,
 		Roles:     []string{roles[0].ID},

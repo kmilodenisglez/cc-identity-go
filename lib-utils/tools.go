@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	model "github.com/ic-matcom/model-identity-go/model"
+	"os"
+	"strconv"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"golang.org/x/text/runes"
@@ -305,4 +307,43 @@ func GetQueryResultForQueryStringWithPagination(ctx contractapi.TransactionConte
 		FetchedRecordsCount: responseMetadata.FetchedRecordsCount,
 		Bookmark:            responseMetadata.Bookmark,
 	}, nil
+}
+
+func GetEnvOrDefault(env, defaultVal string) string {
+	value, ok := os.LookupEnv(env)
+	if !ok {
+		value = defaultVal
+	}
+	return value
+}
+
+// GetBoolOrDefault Note that the method returns default value if the string
+// cannot be parsed!
+func GetBoolOrDefault(value string, defaultVal bool) bool {
+	parsed, err := strconv.ParseBool(value)
+	if err != nil {
+		return defaultVal
+	}
+	return parsed
+}
+
+func UpdateJSON(request interface{}, stateDB interface{}) ([]byte, error) {
+	// JSON encoding
+	requestMarshal, err := json.Marshal(request)
+	if err != nil {
+		return nil, err
+	}
+
+	// sobreescribiendo el activo con los valores del request
+	err = json.Unmarshal(requestMarshal, stateDB)
+	if err != nil {
+		return nil, err
+	}
+	// result JSON encoding
+	resMarshal, err := json.Marshal(stateDB)
+	if err != nil {
+		return nil, err
+	}
+
+	return resMarshal, nil
 }
