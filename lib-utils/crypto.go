@@ -246,7 +246,9 @@ func parsePublicKeyX509(publicKey string) (interface{}, error) {
 	return publicKeyImported, nil
 }
 
+
 // CertificateAlreadyExists check if the certificate already exists in the world-state
+// deprecated: Certificates will be stored in ledger, only public key
 //
 // Arguments:
 //		0: certPemBase64 - certificate to validate
