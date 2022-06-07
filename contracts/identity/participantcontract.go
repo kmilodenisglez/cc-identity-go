@@ -398,6 +398,54 @@ func (ci *ContractIdentity) ParticipantExits(ctx contractapi.TransactionContextI
 	return identityResultsIterator.HasNext(), nil
 }
 
+func (ci *ContractIdentity) GetParticipantRoles(ctx contractapi.TransactionContextInterface, request model.ParticipantGetRequest) ([]model.RoleResponse, error) {
+	identity, err := ci.getParticipant(ctx, request.Did)
+	if err != nil {
+		return nil, err
+	}
+
+	type Res struct {
+		Roles []string `json:"roles"` // role id
+	}
+
+	var identityRoles Res
+	err = json.Unmarshal(identity, &identityRoles)
+	if err != nil {
+		return nil, err
+	}
+
+	var items = make([]model.RoleResponse, 0)
+	// I remove variable address: &docRequest is constant and does not change during the loop iteration
+	// See golang.org/doc/faq#closures_and_goroutines
+	// See https://stackoverflow.com/questions/62446118/implicit-memory-aliasing-in-for-loop/68247837
+	for _, rolID := range identityRoles.Roles {
+		key, err := ctx.GetStub().CreateCompositeKey(RoleDocType, []string{rolID})
+		if err != nil {
+			return nil, err
+		}
+		state, err := ctx.GetStub().GetState(key)
+		if err != nil {
+			return nil, err
+		} else if state == nil {
+			// los roles que no existan son omitidos
+			continue
+		}
+		var role model.Role
+		err = json.Unmarshal(state, &role)
+		if err != nil {
+			return nil, err
+		}
+		items = append(items, model.RoleResponse{
+			DocType:           role.DocType,
+			ID:                role.ID,
+			Name:              role.Name,
+			ContractFunctions: lus.MapToSlice(role.ContractFunctions),
+		})
+	}
+
+	return items, nil
+}
+
 func (ci *ContractIdentity) getParticipant(ctx contractapi.TransactionContextInterface, did string) ([]byte, error) {
 	log.Printf("[%s][getParticipant]", ctx.GetStub().GetChannelID())
 	// compositeKey ID

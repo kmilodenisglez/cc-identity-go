@@ -20,7 +20,7 @@ func (ci *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterfa
 		return nil, err
 	}
 
-	cFunctions := make(map[string]string, 0)
+	cFunctions := make(map[string]string)
 	// using map, because it is very fast
 	lus.SliceToMap(request.ContractFunctions, cFunctions)
 	// Create Role
