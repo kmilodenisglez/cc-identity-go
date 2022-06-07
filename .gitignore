@@ -39,3 +39,6 @@ vendor/*
  # Others
 /.vscode/
 /.idea/
+/code.tar.gz
+/external-chaincode.tgz
+/cc-identity-go
