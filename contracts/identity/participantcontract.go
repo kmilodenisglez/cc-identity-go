@@ -187,6 +187,7 @@ func (ci *ContractIdentity) DeleteParticipant(ctx contractapi.TransactionContext
 
 	var callerID = userToRevoke.Did
 	// if not the participant himself then we get his ID
+	// TODO: validate identityRequest.CallerDid
 	if identityRequest.UserDid != identityRequest.CallerDid {
 		// get caller
 		callerParticipant, err := ci.GetParticipant(ctx, model.ParticipantGetRequest{Did: identityRequest.UserDid})
