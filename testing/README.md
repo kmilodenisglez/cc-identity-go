@@ -18,7 +18,7 @@ Folder with fake certificates for mock up
 ```golang
 
 import (
-	"github.com/ic-matcom/cc-identity-go/testcerts"
+	"github.com/kmilodenisglez/cc-identity-go/testcerts"
 )
 
 // load certificate with attributes for abac

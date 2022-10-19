@@ -2,9 +2,9 @@ package identity
 
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	libUtils "github.com/ic-matcom/cc-identity-go/lib-utils"
-	model "github.com/ic-matcom/model-identity-go/model"
 	jsoniter "github.com/json-iterator/go"
+	libUtils "github.com/kmilodenisglez/cc-identity-go/lib-utils"
+	model "github.com/kmilodenisglez/model-identity-go/model"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary

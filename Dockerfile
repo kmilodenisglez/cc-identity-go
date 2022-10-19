@@ -7,7 +7,7 @@ ARG ALPINE_VER=3.12
 
 FROM golang:${GO_VER}-alpine${ALPINE_VER}
 
-WORKDIR /go/src/github.com/ic-matcom/cc-identity-go
+WORKDIR /go/src/github.com/kmilodenisglez/cc-identity-go
 COPY . .
 
 RUN go get -d -v ./...

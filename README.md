@@ -1,5 +1,6 @@
+# cc-identity-go
 
-#### description
+## Description
 The identity certificate should be issue by just one Certificate Authority
 Each company should be able to check/query attributes from a participant
 A single DID should be enough to query all the information related to one identity, and his attributes
@@ -9,15 +10,16 @@ Only the company that certifies an attribute can edit it
 The flow:
 - Can register new identities
 - Can delete identities
-- Can disarm identities
+- Can update identities
 
 
-#### import it as a module
+## use cc-identity-go as a module (smart contract) inside a chaincode
+
 ```bash
-go get github.com/ic-matcom/cc-identity-go
+go get github.com/kmilodenisglez/cc-identity-go
 ```
 
-## 1. Running the chaincode as a service
+## use cc-identity-go as a service (chaincode)
 
 Package and install the external chaincode on peer with the following simple commands:
 

@@ -1,7 +1,7 @@
 ## how to use model-identity-go
 The goal of model-identity-go repository is to share common data transfer object / structs definitions for other repos of the fuel HLF traceability project.
 
-[follow the instructions](https://github.com/ic-matcom/model-identity-go/blob/main/README.md)
+[follow the instructions](https://github.com/kmilodenisglez/model-identity-go/blob/main/README.md)
 
 
 
@@ -125,18 +125,3 @@ peer chaincode query  -c  '{"function":"org.identity:QueryAssetsBy","Args":["{\"
 # searching for all participants named "Yisel"
 peer chaincode query  -c  '{"function":"org.identity:QueryAssetsWithPagination","Args":["{\"queryString\":{\"selector\":{\"docType\":\"did.participant\",\"attrs.name\":{\"$gt\":\"Yise\"}}},\"pageSize\":3,\"bookmark\":\"\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 ```
-
-
-["{\"queryString\":{\"selector\":{\"docType\":\"did.participant\",\"attrs.name\":{\"$gt\":\"Yise\"}}},\"pageSize\":3,\"bookmark\":\"\"}"]
-
-peer chaincode invoke  -c '{"function":"org.tecnomatica.fuelbatch:Instantiate","Args":["{\"id\":\"id\",\"payload\":\"{}\",\"signature\":\"sign\"}"]}' -o $ORDERER_ADDRESS --tls --cafile $ORDERER_TLS_CA -C $CHANNEL_NAME -n $CC_NAME --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
-
-"Args":["{\"Id\":\"did:aa43bdf5b4bcfac88ce9093ec3f0d58290f11c7ef6d2a683a7ee56746b333ec71\",\"Function\":\"\"}"]}'
-
-"Args":["{\"id\":\"did:aa43bdf5b4bcfac88ce9093ec3f0d58290f11c7ef6d2a683a7ee56746b333ec71\",\"payload\":\"\"}"]}'
-
-'{"function":"org.tecnomatica.fuelbatch:GetBatch","Args":["{\"Id\":\"did:aa43bdf5b4bcfac88ce9093ec3f0d58290f11c7ef6d2a683a7ee56746b333ec71\",\"payload\":\"{}\"}"]}'
-
-
-
-

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	model "github.com/ic-matcom/model-identity-go/model"
+	model "github.com/kmilodenisglez/model-identity-go/model"
 	"os"
 	"strconv"
 

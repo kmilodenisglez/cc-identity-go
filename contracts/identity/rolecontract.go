@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
-	modelapi "github.com/ic-matcom/model-identity-go/model"
+	lus "github.com/kmilodenisglez/cc-identity-go/lib-utils"
+	modelapi "github.com/kmilodenisglez/model-identity-go/model"
 	"log"
 )
 
@@ -14,6 +14,7 @@ import (
 func (ci *ContractIdentity) CreateRole(ctx contractapi.TransactionContextInterface, request modelapi.RoleCreateRequest) (*modelapi.RoleResponse, error) {
 	log.Printf("[%s][CreateRole]", ctx.GetStub().GetChannelID())
 
+	// TODO: remove uuid
 	id := lus.GenerateUUIDStr()
 	key, err := ctx.GetStub().CreateCompositeKey(RoleDocType, []string{id})
 	if err != nil {

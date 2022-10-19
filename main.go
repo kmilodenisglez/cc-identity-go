@@ -9,10 +9,11 @@ import (
 	"github.com/go-jose/go-jose/v3"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/ic-matcom/cc-identity-go/contracts/identity"
-	"github.com/ic-matcom/cc-identity-go/hooks"
-	lus "github.com/ic-matcom/cc-identity-go/lib-utils"
-	modelapi "github.com/ic-matcom/model-identity-go/model"
+	"github.com/kmilodenisglez/cc-identity-go/contracts/identity"
+	"github.com/kmilodenisglez/cc-identity-go/hooks"
+	lus "github.com/kmilodenisglez/cc-identity-go/lib-utils"
+	modelapi "github.com/kmilodenisglez/model-identity-go/model"
+	"gopkg.in/square/go-jose.v2"
 	"io/ioutil"
 	"log"
 	"os"
@@ -29,7 +30,6 @@ func main() {
 		CCID:    os.Getenv("CHAINCODE_ID"),
 		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
 	}
-
 
 	// *** This smart-constract later becomes a chaincode  ***
 	contractIdentity := new(identity.ContractIdentity)
