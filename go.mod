@@ -18,3 +18,5 @@ require (
 	gopkg.in/square/go-jose.v2 v2.5.1
 // TODO: update "gopkg.in/square/go-jose.v2" to v2.6.0 version
 )
+
+replace github.com/ic-matcom/cc-identity-go => github.com/kmilodenisglez/cc-identity-go latest
