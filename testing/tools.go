@@ -2,7 +2,7 @@ package testing
 
 import (
 	"encoding/json"
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/proto"
 	"strings"
 )
 

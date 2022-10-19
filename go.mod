@@ -4,7 +4,6 @@ go 1.16
 
 require (
 	github.com/go-jose/go-jose/v3 v3.0.0
-	github.com/golang/protobuf v1.5.2
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20210718160520-38d29fabecb9
 	github.com/hyperledger/fabric-contract-api-go v1.1.1
 	github.com/hyperledger/fabric-protos-go v0.0.0-20210422135545-37e930696e2a
@@ -18,5 +17,3 @@ require (
 	gopkg.in/square/go-jose.v2 v2.5.1
 // TODO: update "gopkg.in/square/go-jose.v2" to v2.6.0 version
 )
-
-replace github.com/ic-matcom/cc-identity-go => github.com/kmilodenisglez/cc-identity-go latest
